@@ -22,6 +22,7 @@ func Client() *ovh.Client {
 	return oc
 }
 
+// Projects is a list of project IDs
 type Projects []string
 
 // Project is a go representation of a Cloud project

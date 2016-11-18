@@ -29,29 +29,14 @@ func ProjectList() (Projects, error) {
 	return projects, e
 }
 
-func ProjectInfo() (Projects, error) {
-	var projectid string
+func ProjectInfo(projectid string) (*Project, error) {
 	c, err := sdk.Client()
 	if err != nil {
 		return nil, err
 	}
-	project := Project{}
+	project := &Project{}
 	path := fmt.Sprintf("/cloud/project/%s", projectid)
 	e := c.Get(path, &project)
 
 	return project, e
-
-	/*		c := internal.Client()
-			if c == nil {
-				os.Exit(1)
-			}
-			project := internal.Project{}
-			path := fmt.Sprintf("/cloud/project/%s", projectid)
-			if err := c.Get(path, &project); err != nil {
-				log.Fatal(err)
-			}
-			fmt.Printf("Project Name: %s\n", project.Name)
-			fmt.Printf("Project Status: %s\n", project.Status)
-			fmt.Printf("Creation Date: %s\n", project.CreationDate)
-	*/
 }

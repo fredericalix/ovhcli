@@ -23,6 +23,7 @@ func NewClient() (*Client, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error while creating OVH Client: %s", err)
 	}
+	instance := &Client{}
 	instance.OVHClient = c
 
 	return instance, nil

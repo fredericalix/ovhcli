@@ -1,9 +1,7 @@
-package cloud
+package sdk
 
 import (
 	"fmt"
-
-	"github.com/admdwrf/ovhcli/sdk"
 )
 
 // Projects is a list of project IDs
@@ -19,24 +17,18 @@ type Project struct {
 	Status       string `json:"status"`
 }
 
-func ProjectList() (Projects, error) {
-	c, err := sdk.Client()
-	if err != nil {
-		return nil, err
-	}
+// CloudProjectList ...
+func (c *Client) CloudProjectList() (Projects, error) {
 	projects := Projects{}
-	e := c.Get("/cloud/project", &projects)
+	e := c.OVHClient.Get("/cloud/project", &projects)
 	return projects, e
 }
 
-func ProjectInfo(projectid string) (*Project, error) {
-	c, err := sdk.Client()
-	if err != nil {
-		return nil, err
-	}
+// CloudProjectInfo ...
+func (c *Client) CloudProjectInfo(projectid string) (*Project, error) {
 	project := &Project{}
 	path := fmt.Sprintf("/cloud/project/%s", projectid)
-	e := c.Get(path, &project)
+	e := c.OVHClient.Get(path, &project)
 
 	return project, e
 }

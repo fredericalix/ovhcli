@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/admdwrf/ovhcli/sdk/cloud"
+	"github.com/admdwrf/ovhcli/sdk"
 	"github.com/spf13/cobra"
 )
 
@@ -18,8 +18,14 @@ var cmdProjectInfo = &cobra.Command{
 	Use:   "info",
 	Short: "Info about a project: ovhcli project info",
 	Run: func(cmd *cobra.Command, args []string) {
-		// Appel cloud.ProjectInfo(projectid)
-		projectinfo, err := cloud.ProjectInfo(projectid)
+
+		c, err := sdk.NewClient()
+		if err != nil {
+			fmt.Printf("Error: %s", err)
+			os.Exit(1)
+		}
+
+		projectinfo, err := c.CloudProjectInfo(projectid)
 		if err != nil {
 			fmt.Printf("Error: %s", err)
 			os.Exit(1)

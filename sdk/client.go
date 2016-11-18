@@ -1,15 +1,29 @@
 package sdk
 
-import "github.com/ovh/go-ovh/ovh"
+import (
+	"fmt"
 
-var instance *ovh.Client
+	"github.com/ovh/go-ovh/ovh"
+)
 
-//Client return a new Ovh Client
-func Client() (*ovh.Client, error) {
+var instance *Client
 
+// Client ...
+type Client struct {
+	OVHClient *ovh.Client
+}
+
+//NewClient initialize a client
+func NewClient() (*Client, error) {
 	if instance != nil {
 		return instance, nil
 	}
 
-	return ovh.NewDefaultClient()
+	c, err := ovh.NewDefaultClient()
+	if err != nil {
+		return nil, fmt.Errorf("Error while creating OVH Client: %s", err)
+	}
+	instance.OVHClient = c
+
+	return instance, nil
 }

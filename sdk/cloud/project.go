@@ -1,26 +1,6 @@
-package internal
+package cloud
 
-import (
-	"fmt"
-
-	"github.com/ovh/go-ovh/ovh"
-)
-
-var instance *ovh.Client
-
-//Client return a new Ovh Client
-func Client() *ovh.Client {
-
-	if instance != nil {
-		return instance
-	}
-
-	oc, err := ovh.NewDefaultClient()
-	if err != nil {
-		fmt.Printf("Error: %q\n", err)
-	}
-	return oc
-}
+import "github.com/admdwrf/ovhcli/sdk"
 
 // Projects is a list of project IDs
 type Projects []string
@@ -33,4 +13,14 @@ type Project struct {
 	CreationDate string `json:"creationDate"`
 	OrderID      int    `json:"orderID"`
 	Status       string `json:"status"`
+}
+
+func ProjectList() (Projects, error) {
+	c, err := sdk.Client()
+	if err != nil {
+		return nil, err
+	}
+	projects := Projects{}
+	e := c.Get("/cloud/project", &projects)
+	return projects, e
 }

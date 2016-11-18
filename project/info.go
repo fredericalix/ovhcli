@@ -1,6 +1,12 @@
 package project
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"os"
+
+	"github.com/admdwrf/ovhcli/sdk/cloud"
+	"github.com/spf13/cobra"
+)
 
 var projectid string
 
@@ -13,19 +19,16 @@ var cmdProjectInfo = &cobra.Command{
 	Use:   "info",
 	Short: "Info about a project: ovhcli project info",
 	Run: func(cmd *cobra.Command, args []string) {
+		// Appel cloud.ProjectInfo(projectid)
+		projectinfo, err := cloud.ProjectInfo(projectid)
+		if err != nil {
+			fmt.Printf("Error: %s", err)
+			os.Exit(1)
+		}
 
-		/*		c := internal.Client()
-				if c == nil {
-					os.Exit(1)
-				}
-				project := internal.Project{}
-				path := fmt.Sprintf("/cloud/project/%s", projectid)
-				if err := c.Get(path, &project); err != nil {
-					log.Fatal(err)
-				}
-				fmt.Printf("Project Name: %s\n", project.Name)
-				fmt.Printf("Project Status: %s\n", project.Status)
-				fmt.Printf("Creation Date: %s\n", project.CreationDate)
+		/* fmt.Printf("Project Name: %s\n", projectinfo().Name)
+		fmt.Printf("Project Status: %s\n", project.Status)
+		fmt.Printf("Creation Date: %s\n", project.CreationDate)
 		*/
 	},
 }

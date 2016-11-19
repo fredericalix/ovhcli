@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var projectid string
+var projectID string
 
 func init() {
-	cmdProjectInfoByID.PersistentFlags().StringVarP(&projectid, "projectid", "", "", "Your ID Project")
+	cmdProjectInfoByID.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
 }
 
 var cmdProjectInfoByID = &cobra.Command{
@@ -25,7 +25,7 @@ var cmdProjectInfoByID = &cobra.Command{
 			os.Exit(1)
 		}
 
-		projectinfo, err := c.CloudProjectInfoByID(projectid)
+		projectinfo, err := c.CloudProjectInfoByID(projectID)
 		if err != nil {
 			fmt.Printf("Error: %s", err)
 			os.Exit(1)

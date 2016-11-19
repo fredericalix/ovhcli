@@ -122,9 +122,9 @@ func (c *Client) CloudProjectsList() (Projects, error) {
 }
 
 // CloudProjectInfoByID return the details of a project given a project id
-func (c *Client) CloudProjectInfoByID(projectid string) (*Project, error) {
+func (c *Client) CloudProjectInfoByID(projectID string) (*Project, error) {
 	project := &Project{}
-	path := fmt.Sprintf("/cloud/project/%s", projectid)
+	path := fmt.Sprintf("/cloud/project/%s", projectID)
 	e := c.OVHClient.Get(path, &project)
 
 	return project, e
@@ -138,16 +138,16 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 		return nil, err
 	}
 
-	// If projectName is a valid projectid return it.
-	for _, projectid := range projects {
-		if projectid == projectName {
-			return c.CloudProjectInfoByID(projectid)
+	// If projectName is a valid projectID return it.
+	for _, projectID := range projects {
+		if projectID == projectName {
+			return c.CloudProjectInfoByID(projectID)
 		}
 	}
 
 	// Attempt to find a project matching projectName. This is potentially slow
-	for _, projectid := range projects {
-		project, err := c.CloudProjectInfoByID(projectid)
+	for _, projectID := range projects {
+		project, err := c.CloudProjectInfoByID(projectID)
 		if err != nil {
 			return nil, err
 		}
@@ -162,21 +162,21 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 }
 
 // CloudGetImages returns a list of images for a given project in a given region
-func (c *Client) CloudGetImages(projectid, region string) (images Images, err error) {
-	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectid, region)
+func (c *Client) CloudGetImages(projectID, region string) (images Images, err error) {
+	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectID, region)
 	err = c.OVHClient.Get(path, &images)
 	return images, err
 }
 
 // CloudGetInstance finds a VM instance given a name or an ID
-func (c *Client) CloudGetInstance(projectid, instanceID string) (instance *Instance, err error) {
-	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectid, instanceID)
+func (c *Client) CloudGetInstance(projectID, instanceID string) (instance *Instance, err error) {
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
 	err = c.OVHClient.Get(path, &instance)
 	return instance, nil
 }
 
 // CloudCreateInstance start a new public cloud instance and returns resulting object
-func (c *Client) CloudCreateInstance(projectid, name, pubkeyID, flavorID, ImageID, region string, monthlyBilling bool) (instance *Instance, err error) {
+func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, ImageID, region string, monthlyBilling bool) (instance *Instance, err error) {
 	var instanceReq InstanceReq
 	instanceReq.Name = name
 	instanceReq.SshkeyID = pubkeyID
@@ -185,14 +185,14 @@ func (c *Client) CloudCreateInstance(projectid, name, pubkeyID, flavorID, ImageI
 	instanceReq.Region = region
 	instanceReq.MonthlyBilling = monthlyBilling
 
-	path := fmt.Sprintf("/cloud/project/%s/instance", projectid)
+	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	err = c.OVHClient.Post(path, instanceReq, &instance)
 	return instance, err
 }
 
 // CloudDeleteInstance stops and destroys a public cloud instance
-func (c *Client) CloudDeleteInstance(projectid, instanceID string) (err error) {
-	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectid, instanceID)
+func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
 	err = c.OVHClient.Delete(path, nil)
 	if apierror, ok := err.(*ovh.APIError); ok && apierror.Code == 404 {
 		err = nil

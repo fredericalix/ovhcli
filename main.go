@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/admdwrf/ovhcli/caas"
+	"github.com/admdwrf/ovhcli/cloud"
 	"github.com/admdwrf/ovhcli/domain"
 	"github.com/admdwrf/ovhcli/internal"
-	"github.com/admdwrf/ovhcli/project"
 	"github.com/admdwrf/ovhcli/sdk"
 	"github.com/admdwrf/ovhcli/version"
 	"github.com/spf13/cobra"
@@ -37,9 +38,9 @@ func main() {
 
 //AddCommands adds child commands to the root command rootCmd.
 func addCommands() {
-
+	rootCmd.AddCommand(caas.Cmd)
 	rootCmd.AddCommand(domain.Cmd)
-	rootCmd.AddCommand(project.Cmd)
+	rootCmd.AddCommand(cloud.Cmd)
 	rootCmd.AddCommand(version.Cmd)
 	rootCmd.AddCommand(autocompleteCmd)
 }

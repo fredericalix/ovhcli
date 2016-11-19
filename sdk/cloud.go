@@ -2,6 +2,8 @@ package sdk
 
 import (
 	"fmt"
+
+	"github.com/ovh/go-ovh/ovh"
 )
 
 const (
@@ -186,4 +188,14 @@ func (c *Client) CloudCreateInstance(projectid, name, pubkeyID, flavorID, ImageI
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectid)
 	err = c.OVHClient.Post(path, instanceReq, &instance)
 	return instance, err
+}
+
+// CloudDeleteInstance stops and destroys a public cloud instance
+func (c *Client) CloudDeleteInstance(projectid, instanceID string) (err error) {
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectid, instanceID)
+	err = c.OVHClient.Delete(path, nil)
+	if apierror, ok := err.(*ovh.APIError); ok && apierror.Code == 404 {
+		err = nil
+	}
+	return err
 }

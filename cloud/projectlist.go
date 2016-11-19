@@ -19,7 +19,7 @@ var cmdProjectList = &cobra.Command{
 			os.Exit(1)
 		}
 
-		projects, err := c.CloudProjectList()
+		projects, err := c.CloudProjectsList()
 		if err != nil {
 			fmt.Printf("Error: %s", err)
 			os.Exit(1)

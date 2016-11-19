@@ -112,8 +112,8 @@ type RebootReq struct {
 	Type string `json:"type"`
 }
 
-// CloudProjectList returns a list of string project ID
-func (c *Client) CloudProjectList() (Projects, error) {
+// CloudProjectsList returns a list of string project ID
+func (c *Client) CloudProjectsList() (Projects, error) {
 	projects := Projects{}
 	e := c.OVHClient.Get("/cloud/project", &projects)
 	return projects, e
@@ -131,7 +131,7 @@ func (c *Client) CloudProjectInfoByID(projectid string) (*Project, error) {
 // CloudProjectInfoByName returns the details of a project given its name.
 func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, err error) {
 	// get project list
-	projects, err := c.CloudProjectList()
+	projects, err := c.CloudProjectsList()
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +161,29 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 
 // CloudGetImages returns a list of images for a given project in a given region
 func (c *Client) CloudGetImages(projectid, region string) (images Images, err error) {
-	url := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectid, region)
-	err = c.OVHClient.Get(url, &images)
+	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectid, region)
+	err = c.OVHClient.Get(path, &images)
 	return images, err
+}
+
+// CloudGetInstance finds a VM instance given a name or an ID
+func (c *Client) CloudGetInstance(projectid, instanceID string) (instance *Instance, err error) {
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectid, instanceID)
+	err = c.OVHClient.Get(path, &instance)
+	return instance, nil
+}
+
+// CloudCreateInstance start a new public cloud instance and returns resulting object
+func (c *Client) CloudCreateInstance(projectid, name, pubkeyID, flavorID, ImageID, region string, monthlyBilling bool) (instance *Instance, err error) {
+	var instanceReq InstanceReq
+	instanceReq.Name = name
+	instanceReq.SshkeyID = pubkeyID
+	instanceReq.FlavorID = flavorID
+	instanceReq.ImageID = ImageID
+	instanceReq.Region = region
+	instanceReq.MonthlyBilling = monthlyBilling
+
+	path := fmt.Sprintf("/cloud/project/%s/instance", projectid)
+	err = c.OVHClient.Post(path, instanceReq, &instance)
+	return instance, err
 }

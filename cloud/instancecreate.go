@@ -18,7 +18,12 @@ var monthlyBilling bool
 
 func init() {
 	cmdInstanceCreate.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
-	cmdInstanceCreate.PersistentFlags().StringVarP(&instanceID, "instanceID", "", "", "Your Instance ID to delete")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&name, "name", "", "", "Your Instance name to create")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&ImageID, "instanceID", "", "", "Your Instance ID to create")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&pubkeyID, "instanceID", "", "", "Your Instance ID to create")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&flavorID, "instanceID", "", "", "Your Instance ID to create")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "instanceID", "", "", "Your Instance ID to create")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "monthlyBilling", "", "", "Your Instance ID to create")
 
 }
 
@@ -38,7 +43,7 @@ var cmdInstanceCreate = &cobra.Command{
 			fmt.Printf("Error: %s", err)
 			os.Exit(1)
 		}
-		fmt.Printf("Instance %s deleted\n", instanceID)
+		fmt.Printf("Instance on Project  %s is ok \n", ProjectID)
 
 	},
 }

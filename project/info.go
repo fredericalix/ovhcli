@@ -25,7 +25,7 @@ var cmdProjectInfo = &cobra.Command{
 			os.Exit(1)
 		}
 
-		projectinfo, err := c.CloudProjectInfo(projectid)
+		projectinfo, err := c.CloudProjectInfoByID(projectid)
 		if err != nil {
 			fmt.Printf("Error: %s", err)
 			os.Exit(1)

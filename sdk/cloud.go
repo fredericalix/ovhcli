@@ -4,6 +4,11 @@ import (
 	"fmt"
 )
 
+const (
+	// CustomerInterface is the URL of the customer interface, for error messages
+	CustomerInterface = "https://www.ovh.com/manager/cloud/index.html"
+)
+
 // Projects is a list of project IDs
 type Projects []string
 
@@ -107,20 +112,51 @@ type RebootReq struct {
 	Type string `json:"type"`
 }
 
-// CloudProjectList ...
+// CloudProjectList returns a list of string project ID
 func (c *Client) CloudProjectList() (Projects, error) {
 	projects := Projects{}
 	e := c.OVHClient.Get("/cloud/project", &projects)
 	return projects, e
 }
 
-// CloudProjectInfo ...
-func (c *Client) CloudProjectInfo(projectid string) (*Project, error) {
+// CloudProjectInfoByID return the details of a project given a project id
+func (c *Client) CloudProjectInfoByID(projectid string) (*Project, error) {
 	project := &Project{}
 	path := fmt.Sprintf("/cloud/project/%s", projectid)
 	e := c.OVHClient.Get(path, &project)
 
 	return project, e
+}
+
+// CloudProjectInfoByName returns the details of a project given its name.
+func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, err error) {
+	// get project list
+	projects, err := c.CloudProjectList()
+	if err != nil {
+		return nil, err
+	}
+
+	// If projectName is a valid projectid return it.
+	for _, projectid := range projects {
+		if projectid == projectName {
+			return c.CloudProjectInfoByID(projectid)
+		}
+	}
+
+	// Attempt to find a project matching projectName. This is potentially slow
+	for _, projectid := range projects {
+		project, err := c.CloudProjectInfoByID(projectid)
+		if err != nil {
+			return nil, err
+		}
+
+		if project.Name == projectName {
+			return project, nil
+		}
+	}
+
+	// Ooops
+	return nil, fmt.Errorf("Project '%s' does not exist on OVH cloud. To create or rename a project, please visit %s", projectName, CustomerInterface)
 }
 
 // CloudGetImages returns a list of images for a given project in a given region

@@ -1,10 +1,7 @@
 package cloud
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/admdwrf/ovhcli/sdk"
+	"github.com/admdwrf/ovhcli/internal"
 	"github.com/spf13/cobra"
 )
 
@@ -13,19 +10,8 @@ var cmdProjectList = &cobra.Command{
 	Short: "List all projects: ovhcli project list",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		c, err := sdk.NewClient()
-		if err != nil {
-			fmt.Printf("Error: %s", err)
-			os.Exit(1)
-		}
-
-		projects, err := c.CloudProjectsList()
-		if err != nil {
-			fmt.Printf("Error: %s", err)
-			os.Exit(1)
-		}
-		for _, p := range projects {
-			fmt.Printf("%s\n", p)
-		}
+		projects, err := internal.Client.CloudProjectsList()
+		internal.Check(err)
+		internal.FormatOutputDef(projects)
 	},
 }

@@ -3,10 +3,16 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "1T+O5By9lglAD3y77fUC8pXp5Tg=",
+			"checksumSHA1": "5b+vY5xJ8+O9P++XpsAp3ce5+gE=",
+			"path": "github.com/ghodss/yaml",
+			"revision": "bea76d6a4713e18b7f5321a2b020738552def3ea",
+			"revisionTime": "2016-10-20T00:50:02Z"
+		},
+		{
+			"checksumSHA1": "Pm+TNUFA1kz3CQDN4tahU8+BjM0=",
 			"path": "github.com/ovh/go-ovh/ovh",
-			"revision": "d2b2eae2511fa5fcd0bdef9f1790ea3979fa35d4",
-			"revisionTime": "2016-06-04T15:31:04Z"
+			"revision": "d6763cca4824319e17e556858e4517b151de4558",
+			"revisionTime": "2016-09-10T22:08:51Z"
 		},
 		{
 			"checksumSHA1": "FZ0r4TzEy9UxXLkFVXFygApni4M=",
@@ -25,6 +31,12 @@
 			"path": "gopkg.in/ini.v1",
 			"revision": "6e4869b434bd001f6983749881c7ead3545887d8",
 			"revisionTime": "2016-08-27T06:11:18Z"
+		},
+		{
+			"checksumSHA1": "12GqsW8PiRPnezDDy0v4brZrndM=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a5b47d31c556af34a302ce5d659e6fea44d90de0",
+			"revisionTime": "2016-09-28T15:37:09Z"
 		}
 	],
 	"rootPath": "github.com/admdwrf/ovhcli"

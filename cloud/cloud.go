@@ -4,6 +4,7 @@ import "github.com/spf13/cobra"
 
 func init() {
 	Cmd.AddCommand(cmdCloudProject)
+	Cmd.AddCommand(cmdCloudInstance)
 
 }
 

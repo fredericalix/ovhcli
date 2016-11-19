@@ -4,7 +4,9 @@ import "github.com/spf13/cobra"
 
 func init() {
 	cmdCloudProject.AddCommand(cmdProjectList)
-	cmdCloudProject.AddCommand(cmdProjectInfo)
+	cmdCloudProject.AddCommand(cmdProjectInfoByID)
+	cmdCloudProject.AddCommand(cmdProjectInfoByName)
+
 }
 
 // cmdCloudProject ...

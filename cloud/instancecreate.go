@@ -19,11 +19,12 @@ var monthlyBilling bool
 func init() {
 	cmdInstanceCreate.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
 	cmdInstanceCreate.PersistentFlags().StringVarP(&name, "name", "", "", "Your Instance name to create")
-	cmdInstanceCreate.PersistentFlags().StringVarP(&ImageID, "instanceID", "", "", "Your Instance ID to create")
-	cmdInstanceCreate.PersistentFlags().StringVarP(&pubkeyID, "instanceID", "", "", "Your Instance ID to create")
-	cmdInstanceCreate.PersistentFlags().StringVarP(&flavorID, "instanceID", "", "", "Your Instance ID to create")
-	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "instanceID", "", "", "Your Instance ID to create")
-	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "monthlyBilling", "", "", "Your Instance ID to create")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&ImageID, "ImageID", "", "", "Your image ID to use")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&pubkeyID, "pubkeyID", "", "", "Your sshkey ID to use")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&flavorID, "flavorID", "", "", "Your flavor ID to use")
+	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "region", "", "", "region to use")
+	//cmdInstanceCreate.PersistentFlags().StringVarP(&monthlyBilling, "monthlyBilling", "", "", "Your Instance ID to create")
+	cmdInstanceCreate.PersistentFlags().Bool("monthlyBilling", false, "Pay per monith or not")
 
 }
 

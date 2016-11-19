@@ -122,3 +122,10 @@ func (c *Client) CloudProjectInfo(projectid string) (*Project, error) {
 
 	return project, e
 }
+
+// CloudGetImages returns a list of images for a given project in a given region
+func (c *Client) CloudGetImages(projectid, region string) (images Images, err error) {
+	url := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectid, region)
+	err = c.OVHClient.Get(url, &images)
+	return images, err
+}

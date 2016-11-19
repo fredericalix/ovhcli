@@ -41,6 +41,7 @@ func addCommands() {
 	rootCmd.AddCommand(caas.Cmd)
 	rootCmd.AddCommand(domain.Cmd)
 	rootCmd.AddCommand(cloud.Cmd)
+
 	rootCmd.AddCommand(version.Cmd)
 	rootCmd.AddCommand(autocompleteCmd)
 }

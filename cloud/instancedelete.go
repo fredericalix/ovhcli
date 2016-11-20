@@ -2,9 +2,8 @@ package cloud
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/admdwrf/ovhcli/sdk"
+	"github.com/admdwrf/ovhcli/internal"
 	"github.com/spf13/cobra"
 )
 
@@ -21,18 +20,10 @@ var cmdInstanceDelete = &cobra.Command{
 	Short: "Delete Cloud Public Instance: ovhcli cloud instance delete",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		c, err := sdk.NewClient()
-		if err != nil {
-			fmt.Printf("Error: %s", err)
-			os.Exit(1)
-		}
+		err := internal.Client.CloudDeleteInstance(projectID, instanceID)
+		internal.Check(err)
 
-		c.CloudDeleteInstance(projectID, instanceID)
-		if err != nil {
-			fmt.Printf("Error: %s", err)
-			os.Exit(1)
-		}
-		fmt.Printf("Instance %s deleted\n", instanceID)
+		fmt.Printf("Instance %s deleted:\n", instanceID)
 
 	},
 }

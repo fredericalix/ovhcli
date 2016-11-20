@@ -5,8 +5,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var projectID string
-
 func init() {
 	cmdProjectInfoByID.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
 }

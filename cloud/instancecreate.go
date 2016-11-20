@@ -14,7 +14,6 @@ var name string
 var pubkeyID string
 var flavorID string
 var region string
-var monthlyBilling bool
 
 func init() {
 	cmdInstanceCreate.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
@@ -23,7 +22,6 @@ func init() {
 	cmdInstanceCreate.PersistentFlags().StringVarP(&pubkeyID, "pubkeyID", "", "", "Your sshkey ID to use")
 	cmdInstanceCreate.PersistentFlags().StringVarP(&flavorID, "flavorID", "", "", "Your flavor ID to use")
 	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "region", "", "", "region to use")
-	cmdInstanceCreate.PersistentFlags().Bool("monthlyBilling", false, "Pay per monith or not")
 
 }
 

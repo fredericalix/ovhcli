@@ -11,17 +11,14 @@ const (
 	CustomerInterface = "https://www.ovh.com/manager/cloud/index.html"
 )
 
-// Projects is a list of project IDs
-type Projects []string
-
 // Project is a go representation of a Cloud project
 type Project struct {
-	Name         string `json:"description"`
+	Name         string `json:"description,omitempty"`
 	ID           string `json:"project_id"`
-	Unleash      bool   `json:"unleash"`
-	CreationDate string `json:"creationDate"`
-	OrderID      int    `json:"orderID"`
-	Status       string `json:"status"`
+	Unleash      bool   `json:"unleash,omitempty"`
+	CreationDate string `json:"creationDate,omitempty"`
+	OrderID      int    `json:"orderID,omitempty"`
+	Status       string `json:"status,omitempty"`
 }
 
 // Image is a go representation of a Cloud Image (VM template)
@@ -113,9 +110,16 @@ type RebootReq struct {
 }
 
 // CloudProjectsList returns a list of string project ID
-func (c *Client) CloudProjectsList() (Projects, error) {
-	projects := Projects{}
-	e := c.OVHClient.Get("/cloud/project", &projects)
+func (c *Client) CloudProjectsList() ([]Project, error) {
+	projects := []Project{}
+	ids := []string{}
+	e := c.OVHClient.Get("/cloud/project", &ids)
+	if e != nil {
+		return nil, e
+	}
+	for _, id := range ids {
+		projects = append(projects, Project{ID: id})
+	}
 	return projects, e
 }
 
@@ -137,15 +141,15 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 	}
 
 	// If projectName is a valid projectID return it.
-	for _, projectID := range projects {
-		if projectID == projectName {
-			return c.CloudProjectInfoByID(projectID)
+	for _, p := range projects {
+		if p.ID == projectName {
+			return c.CloudProjectInfoByID(p.ID)
 		}
 	}
 
 	// Attempt to find a project matching projectName. This is potentially slow
-	for _, projectID := range projects {
-		project, err := c.CloudProjectInfoByID(projectID)
+	for _, p := range projects {
+		project, err := c.CloudProjectInfoByID(p.ID)
 		if err != nil {
 			return nil, err
 		}

@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/admdwrf/ovhcli/internal"
+	"github.com/admdwrf/ovhcli/sdk"
 	"github.com/spf13/cobra"
 )
 
@@ -20,10 +21,13 @@ var cmdDomainList = &cobra.Command{
 		internal.Check(err)
 
 		if withDetails {
+			domainsComplete := []sdk.Domain{}
 			for _, domain := range domains {
-				err := internal.Client.DomainInfo(domain)
+				d, err := internal.Client.DomainInfo(domain.Domain)
 				internal.Check(err)
+				domainsComplete = append(domainsComplete, *d)
 			}
+			domains = domainsComplete
 		}
 
 		internal.FormatOutputDef(domains)

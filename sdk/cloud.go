@@ -87,26 +87,24 @@ type IPs []IP
 
 // InstanceReq defines the fields for a VM creation
 type InstanceReq struct {
-	Name           string `json:"name"`
-	FlavorID       string `json:"flavorID"`
-	ImageID        string `json:"imageID"`
-	Region         string `json:"region"`
-	SshkeyID       string `json:"sshKeyID"`
-	MonthlyBilling bool   `json:"monthlyBilling"`
+	Name     string `json:"name"`
+	FlavorID string `json:"flavorID"`
+	ImageID  string `json:"imageID"`
+	Region   string `json:"region"`
+	SshkeyID string `json:"sshKeyID"`
 }
 
 // Instance is a go representation of Cloud instance
 type Instance struct {
-	Name           string `json:"name"`
-	ID             string `json:"id"`
-	Status         string `json:"status"`
-	Created        string `json:"created"`
-	Region         string `json:"region"`
-	Image          Image  `json:"image"`
-	Flavor         Flavor `json:"flavor"`
-	Sshkey         Sshkey `json:"sshKey"`
-	IPAddresses    IPs    `json:"ipAddresses"`
-	MonthlyBilling bool   `json:"monthlyBilling"`
+	Name        string `json:"name"`
+	ID          string `json:"id"`
+	Status      string `json:"status"`
+	Created     string `json:"created"`
+	Region      string `json:"region"`
+	Image       Image  `json:"image"`
+	Flavor      Flavor `json:"flavor"`
+	Sshkey      Sshkey `json:"sshKey"`
+	IPAddresses IPs    `json:"ipAddresses"`
 }
 
 // RebootReq defines the fields for a VM reboot
@@ -176,14 +174,14 @@ func (c *Client) CloudGetInstance(projectID, instanceID string) (instance *Insta
 }
 
 // CloudCreateInstance start a new public cloud instance and returns resulting object
-func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, ImageID, region string, monthlyBilling bool) (instance *Instance, err error) {
+func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, ImageID, region string) (instance *Instance, err error) {
 	var instanceReq InstanceReq
 	instanceReq.Name = name
 	instanceReq.SshkeyID = pubkeyID
 	instanceReq.FlavorID = flavorID
 	instanceReq.ImageID = ImageID
 	instanceReq.Region = region
-	instanceReq.MonthlyBilling = monthlyBilling
+	// instanceReq.MonthlyBilling = monthlyBilling
 
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	err = c.OVHClient.Post(path, instanceReq, &instance)

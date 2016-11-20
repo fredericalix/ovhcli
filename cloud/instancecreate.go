@@ -38,7 +38,7 @@ var cmdInstanceCreate = &cobra.Command{
 			os.Exit(1)
 		}
 
-		c.CloudCreateInstance(ProjectID, name, pubkeyID, flavorID, ImageID, region, monthlyBilling)
+		c.CloudCreateInstance(ProjectID, name, pubkeyID, flavorID, ImageID, region)
 		if err != nil {
 			fmt.Printf("Error: %s", err)
 			os.Exit(1)

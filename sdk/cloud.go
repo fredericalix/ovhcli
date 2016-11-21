@@ -201,3 +201,30 @@ func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
 	}
 	return err
 }
+
+// CloudListInstance show cloud instance(s)
+func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
+	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
+	instances := []Instance{}
+	icl := []string{}
+	e := c.OVHClient.Get(path, &icl)
+	if e != nil {
+		return nil, e
+	}
+	for _, id := range icl {
+		instances = append(instances, Instance{Name: id})
+
+	}
+	return instances, e
+}
+
+// CloudInfoInstance give info about cloud instance
+func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, error) {
+	instance := &Instance{}
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
+	e := c.OVHClient.Get(path, instanceID)
+	if e != nil {
+		return nil, e
+	}
+	return instance, e
+}

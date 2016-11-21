@@ -54,16 +54,16 @@ type Flavor struct {
 type SshkeyReq struct {
 	Name      string `json:"name"`
 	PublicKey string `json:"publicKey"`
-	Region    string `json:"region,omitempty"`
+	Region    string `json:"region"`
 }
 
 // Sshkey is a go representation of Cloud SSH Key
 type Sshkey struct {
-	Name        string    `json:"name"`
-	ID          string    `json:"id"`
-	PublicKey   string    `json:"publicKey"`
-	Fingerprint string    `json:"fingerPrint"`
-	Regions     []Regions `json:"regions"`
+	Name        string `json:"name"`
+	ID          string `json:"id"`
+	PublicKey   string `json:"publicKey"`
+	Fingerprint string `json:"fingerPrint"`
+	//Regions     Regions `json:"regions"`
 }
 
 // Regions is a go representation of Cloud Regions

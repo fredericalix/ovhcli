@@ -41,14 +41,16 @@ type Images []Image
 
 // Flavor is a go representation of Cloud Flavor
 type Flavor struct {
-	Region      string `json:"region"`
-	Name        string `json:"name"`
-	ID          string `json:"id"`
-	OS          string `json:"osType"`
-	Vcpus       int    `json:"vcpus"`
-	MemoryGB    int    `json:"ram"`
-	DiskSpaceGB int    `json:"disk"`
-	Type        string `json:"type"`
+	Region            string `json:"region"`
+	Name              string `json:"name"`
+	ID                string `json:"id"`
+	OS                string `json:"osType"`
+	Vcpus             int    `json:"vcpus"`
+	MemoryGB          int    `json:"ram"`
+	DiskSpaceGB       int    `json:"disk"`
+	Type              string `json:"type"`
+	InboundBandwidth  int    `json:"inboundBandwidth"`
+	OutboundBandwidth int    `json:"outboundBandwidth"`
 }
 
 // Flavors is a list flavors
@@ -78,8 +80,10 @@ type Sshkeys []Sshkey
 
 // IP is a go representation of a Cloud IP address
 type IP struct {
-	IP   string `json:"ip"`
-	Type string `json:"type"`
+	IP        string `json:"ip"`
+	NetworkID string `json:"networkId"`
+	Version   int    `json:"version"`
+	Type      string `json:"type"`
 }
 
 // IPs is a list of IPs

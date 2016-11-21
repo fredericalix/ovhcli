@@ -214,7 +214,7 @@ func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
 }
 
 // CloudListInstance show cloud instance(s)
-func (c *Client) CloudListInstance(projectID string) (InstancesList, error) {
+func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	instances := []Instance{}
 	icl := []string{}

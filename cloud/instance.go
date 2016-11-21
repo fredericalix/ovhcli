@@ -6,6 +6,7 @@ func init() {
 	cmdCloudInstance.AddCommand(cmdInstanceDelete)
 	cmdCloudInstance.AddCommand(cmdInstanceCreate)
 	cmdCloudInstance.AddCommand(cmdInstanceList)
+	cmdCloudInstance.AddCommand(cmdInstanceInfo)
 
 }
 

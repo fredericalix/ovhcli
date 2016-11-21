@@ -212,7 +212,7 @@ func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 		return nil, e
 	}
 	for _, id := range icl {
-		instances = append(instances, Instance{Name: id})
+		instances = append(instances, Instance{ID: id})
 
 	}
 	return instances, e

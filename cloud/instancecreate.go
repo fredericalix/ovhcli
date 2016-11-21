@@ -19,6 +19,7 @@ func init() {
 	cmdInstanceCreate.PersistentFlags().StringVarP(&pubkeyID, "pubkeyID", "", "", "Your sshkey ID to use")
 	cmdInstanceCreate.PersistentFlags().StringVarP(&flavorID, "flavorID", "", "", "Your flavor ID to use")
 	cmdInstanceCreate.PersistentFlags().StringVarP(&region, "region", "", "", "region to use")
+
 }
 
 var cmdInstanceCreate = &cobra.Command{

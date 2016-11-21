@@ -12,13 +12,17 @@ type Vrack struct {
 	Description string `json:"description"`
 }
 
+// Ids of vracks
+type Ids []string
+
 // VrackList ...
 func (c *Client) VrackList() ([]Vrack, error) {
-	var ids []string
+	ids := Ids{}
 	e := c.OVHClient.Get("/vrack", &ids)
 	vracks := []Vrack{}
 	for _, id := range ids {
 		vracks = append(vracks, Vrack{Name: id})
+
 	}
 	return vracks, e
 }

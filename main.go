@@ -11,6 +11,8 @@ import (
 	"github.com/admdwrf/ovhcli/internal"
 	"github.com/admdwrf/ovhcli/sdk"
 	"github.com/admdwrf/ovhcli/version"
+	"github.com/admdwrf/ovhcli/vrack"
+
 	"github.com/spf13/cobra"
 )
 
@@ -43,6 +45,8 @@ func addCommands() {
 	rootCmd.AddCommand(cloud.Cmd)
 
 	rootCmd.AddCommand(version.Cmd)
+	rootCmd.AddCommand(vrack.Cmd)
+
 	rootCmd.AddCommand(autocompleteCmd)
 }
 

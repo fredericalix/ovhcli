@@ -78,6 +78,19 @@ type Sshkey struct {
 // Sshkeys is a list of Sshkey
 type Sshkeys []Sshkey
 
+// Networks is a list of Network
+type Networks []Networks
+
+// Network is a go representation of a Cloud IP address
+type Network struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Status  string `json:"Status"`
+	Type    string `json:"type"`
+	VlanID  int    `json:"vlanId"`
+	Regions string `json:"regions"`
+}
+
 // IP is a go representation of a Cloud IP address
 type IP struct {
 	IP        string `json:"ip"`
@@ -196,7 +209,6 @@ func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, ImageI
 	instanceReq.FlavorID = flavorID
 	instanceReq.ImageID = ImageID
 	instanceReq.Region = region
-	// instanceReq.MonthlyBilling = monthlyBilling
 
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	err = c.OVHClient.Post(path, instanceReq, &instance)
@@ -237,5 +249,14 @@ func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, err
 	if e != nil {
 		return nil, e
 	}
-	return instance, e
+	return instance, nil
+}
+
+// CloudInfoNetworkPublic return the list of a public network by given a project id
+func (c *Client) CloudInfoNetworkPublic(projectID string) (*Network, error) {
+	network := &Network{}
+	path := fmt.Sprintf("/cloud/project/%s/network/public", projectID)
+	e := c.OVHClient.Get(path, &network)
+
+	return network, e
 }

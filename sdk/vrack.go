@@ -6,7 +6,10 @@ import "fmt"
 type Vrack struct {
 
 	// "Vrack name"
-	Vrack string `json:"name"`
+	Name string `json:"name"`
+
+	// "Vrack decription"
+	Description string `json:"description"`
 }
 
 // VrackList ...
@@ -15,7 +18,7 @@ func (c *Client) VrackList() ([]Vrack, error) {
 	e := c.OVHClient.Get("/vrack", &ids)
 	vracks := []Vrack{}
 	for _, id := range ids {
-		vracks = append(vracks, Vrack{Vrack: id})
+		vracks = append(vracks, Vrack{Name: id})
 	}
 	return vracks, e
 }

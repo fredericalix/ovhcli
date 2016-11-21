@@ -23,7 +23,7 @@ var cmdVrackList = &cobra.Command{
 		if withDetails {
 			vracksComplete := []sdk.Vrack{}
 			for _, vrack := range vracks {
-				v, err := internal.Client.VrackInfo(vrack.Vrack)
+				v, err := internal.Client.VrackInfo(vrack.Name)
 				internal.Check(err)
 				vracksComplete = append(vracksComplete, *v)
 			}

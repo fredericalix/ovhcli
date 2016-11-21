@@ -31,6 +31,9 @@ type Image struct {
 	Status       string `json:"status"`
 	MinDisk      int    `json:"minDisk"`
 	Visibility   string `json:"visibility"`
+	Size         int    `json:"size"`
+	MinRAM       int    `json:"minRam"`
+	User         string `json:"user"`
 }
 
 // Images is a list of Images
@@ -91,17 +94,21 @@ type InstanceReq struct {
 	SshkeyID string `json:"sshKeyID"`
 }
 
+// InstancesList is a list of Instance
+type InstancesList []Instance
+
 // Instance is a go representation of Cloud instance
 type Instance struct {
-	Name        string `json:"name"`
-	ID          string `json:"id"`
-	Status      string `json:"status"`
-	Created     string `json:"created"`
-	Region      string `json:"region"`
-	Image       Image  `json:"image"`
-	Flavor      Flavor `json:"flavor"`
-	Sshkey      Sshkey `json:"sshKey"`
-	IPAddresses IPs    `json:"ipAddresses"`
+	Name           string `json:"name"`
+	ID             string `json:"id"`
+	Status         string `json:"status"`
+	Created        string `json:"created"`
+	Region         string `json:"region"`
+	Image          Image  `json:"image"`
+	Flavor         Flavor `json:"flavor"`
+	Sshkey         Sshkey `json:"sshKey"`
+	IPAddresses    IPs    `json:"ipAddresses"`
+	MonthlyBilling string `json:"monthlyBilling"`
 }
 
 // RebootReq defines the fields for a VM reboot
@@ -203,7 +210,7 @@ func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
 }
 
 // CloudListInstance show cloud instance(s)
-func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
+func (c *Client) CloudListInstance(projectID string) (InstancesList, error) {
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	instances := []Instance{}
 	icl := []string{}

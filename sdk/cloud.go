@@ -63,17 +63,17 @@ type Sshkey struct {
 	ID          string `json:"id"`
 	PublicKey   string `json:"publicKey"`
 	Fingerprint string `json:"fingerPrint"`
-	//TODO Regions     []Region `json:"region"`
+	// TODO Regions     Regions `json:"region"`
 }
 
 // Network is a go representation of a Cloud IP address
 type Network struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Status  string `json:"Status"`
-	Type    string `json:"type"`
-	VlanID  int    `json:"vlanId"`
-	Regions string `json:"regions"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+	Type   string `json:"type"`
+	VlanID int    `json:"vlanId"`
+	//Regions string `json:"regions"`
 }
 
 // IP is a go representation of a Cloud IP address
@@ -93,21 +93,18 @@ type InstanceReq struct {
 	SshkeyID string `json:"sshKeyID"`
 }
 
-// InstancesList is a list of Instance
-type InstancesList []Instance
-
 // Instance is a go representation of Cloud instance
 type Instance struct {
-	Name           string  `json:"name"`
-	ID             string  `json:"id"`
-	Status         string  `json:"status"`
-	Created        string  `json:"created"`
-	Region         string  `json:"region"`
-	Image          *Image  `json:"image"`
-	Flavor         *Flavor `json:"flavor"`
-	Sshkey         *Sshkey `json:"sshKey"`
-	IPAddresses    []IP    `json:"ipAddresses"`
-	MonthlyBilling *string `json:"monthlyBilling"`
+	Name string `json:"name"`
+	ID   string `json:"id"`
+	/*	Status         string  `json:"status"`
+		Created        string  `json:"created"`
+		Region         string  `json:"region"`
+		Image          *Image  `json:"image"`
+		Flavor         *Flavor `json:"flavor"`
+		Sshkey         *Sshkey `json:"sshKey"`
+		IPAddresses    []IP    `json:"ipAddresses"`
+		MonthlyBilling *string `json:"monthlyBilling"` */
 }
 
 // RebootReq defines the fields for a VM reboot
@@ -218,20 +215,20 @@ func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 }
 
 // CloudInfoInstance give info about cloud instance
-func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, error) {
-	instance := &Instance{}
+func (c *Client) CloudInfoInstance(projectID, instanceID string) ([]Instance, error) {
 	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
-	e := c.OVHClient.Get(path, instance)
-	if e != nil {
-		return nil, e
-	}
-	return instance, nil
+	instances := []Instance{}
+
+	e := c.OVHClient.Get(path, &instances)
+
+	return instances, e
 }
 
 // CloudInfoNetworkPublic return the list of a public network by given a project id
-func (c *Client) CloudInfoNetworkPublic(projectID string) (*Network, error) {
-	network := &Network{}
+func (c *Client) CloudInfoNetworkPublic(projectID string) ([]Network, error) {
 	path := fmt.Sprintf("/cloud/project/%s/network/public", projectID)
+	network := []Network{}
+
 	e := c.OVHClient.Get(path, &network)
 
 	return network, e

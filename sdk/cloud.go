@@ -239,3 +239,13 @@ func (c *Client) CloudInfoNetworkPublic(projectID string) ([]Network, error) {
 
 	return network, e
 }
+
+// CloudInfoNetworkPrivate return the list of a private network by given a project id
+func (c *Client) CloudInfoNetworkPrivate(projectID string) ([]Network, error) {
+	path := fmt.Sprintf("/cloud/project/%s/network/private", projectID)
+	network := []Network{}
+
+	e := c.OVHClient.Get(path, &network)
+
+	return network, e
+}

@@ -4,6 +4,7 @@ import "github.com/spf13/cobra"
 
 func init() {
 	cmdCloudNetwork.AddCommand(cmdCloudNetworkPublic)
+	cmdCloudNetwork.AddCommand(cmdCloudNetworkPrivate)
 
 }
 

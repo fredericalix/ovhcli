@@ -17,8 +17,8 @@ var cmdInstanceInfo = &cobra.Command{
 	Use:   "info",
 	Short: "Info about an cloud instance: ovhcli cloud instance info",
 	Run: func(cmd *cobra.Command, args []string) {
-		instanceinfo, err := internal.Client.CloudInfoInstance(projectID, instanceName)
+		instance, err := internal.Client.CloudInfoInstance(projectID, instanceName)
 		internal.Check(err)
-		internal.FormatOutputDef(instanceinfo)
+		internal.FormatOutputDef(instance)
 	},
 }

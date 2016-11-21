@@ -23,17 +23,17 @@ type Project struct {
 
 // Image is a go representation of a Cloud Image (VM template)
 type Image struct {
-	Region       string `json:"region"`
-	Name         string `json:"name"`
-	ID           string `json:"id"`
-	OS           string `json:"type"`
-	CreationDate string `json:"creationDate"`
-	Status       string `json:"status"`
-	MinDisk      int    `json:"minDisk"`
-	Visibility   string `json:"visibility"`
-	Size         int    `json:"size"`
-	MinRAM       int    `json:"minRam"`
-	User         string `json:"user"`
+	Region       string  `json:"region"`
+	Name         string  `json:"name"`
+	ID           string  `json:"id"`
+	OS           string  `json:"type"`
+	CreationDate string  `json:"creationDate"`
+	Status       string  `json:"status"`
+	MinDisk      int     `json:"minDisk"`
+	Visibility   string  `json:"visibility"`
+	Size         float32 `json:"size"`
+	MinRAM       int     `json:"minRam"`
+	User         string  `json:"user"`
 }
 
 // Flavor is a go representation of Cloud Flavor
@@ -95,16 +95,16 @@ type InstanceReq struct {
 
 // Instance is a go representation of Cloud instance
 type Instance struct {
-	Name string `json:"name"`
-	ID   string `json:"id"`
-	/*	Status         string  `json:"status"`
-		Created        string  `json:"created"`
-		Region         string  `json:"region"`
-		Image          *Image  `json:"image"`
-		Flavor         *Flavor `json:"flavor"`
-		Sshkey         *Sshkey `json:"sshKey"`
-		IPAddresses    []IP    `json:"ipAddresses"`
-		MonthlyBilling *string `json:"monthlyBilling"` */
+	Name           string  `json:"name"`
+	ID             string  `json:"id"`
+	Status         string  `json:"status"`
+	Created        string  `json:"created"`
+	Region         string  `json:"region"`
+	Image          *Image  `json:"image"`
+	Flavor         *Flavor `json:"flavor"`
+	Sshkey         *Sshkey `json:"sshKey"`
+	IPAddresses    []IP    `json:"ipAddresses"`
+	MonthlyBilling *string `json:"monthlyBilling"`
 }
 
 // RebootReq defines the fields for a VM reboot
@@ -215,9 +215,9 @@ func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 }
 
 // CloudInfoInstance give info about cloud instance
-func (c *Client) CloudInfoInstance(projectID, instanceID string) ([]Instance, error) {
+func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, error) {
 	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
-	instances := []Instance{}
+	instances := &Instance{}
 
 	e := c.OVHClient.Get(path, &instances)
 

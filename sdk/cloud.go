@@ -233,7 +233,7 @@ func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, error) {
 	instance := &Instance{}
 	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
-	e := c.OVHClient.Get(path, instanceID)
+	e := c.OVHClient.Get(path, instance)
 	if e != nil {
 		return nil, e
 	}

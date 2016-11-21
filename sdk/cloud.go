@@ -36,9 +36,6 @@ type Image struct {
 	User         string `json:"user"`
 }
 
-// Images is a list of Images
-type Images []Image
-
 // Flavor is a go representation of Cloud Flavor
 type Flavor struct {
 	Region            string `json:"region"`
@@ -53,12 +50,6 @@ type Flavor struct {
 	OutboundBandwidth int    `json:"outboundBandwidth"`
 }
 
-// Flavors is a list flavors
-type Flavors []Flavor
-
-// Regions is a list of Cloud Region names
-type Regions []string
-
 // SshkeyReq defines the fields for an SSH Key upload
 type SshkeyReq struct {
 	Name      string `json:"name"`
@@ -68,18 +59,12 @@ type SshkeyReq struct {
 
 // Sshkey is a go representation of Cloud SSH Key
 type Sshkey struct {
-	Name        string  `json:"name"`
-	ID          string  `json:"id"`
-	PublicKey   string  `json:"publicKey"`
-	Fingerprint string  `json:"fingerPrint"`
-	Regions     Regions `json:"region"`
+	Name        string `json:"name"`
+	ID          string `json:"id"`
+	PublicKey   string `json:"publicKey"`
+	Fingerprint string `json:"fingerPrint"`
+	//TODO Regions     []Region `json:"region"`
 }
-
-// Sshkeys is a list of Sshkey
-type Sshkeys []Sshkey
-
-// Networks is a list of Network
-type Networks []Networks
 
 // Network is a go representation of a Cloud IP address
 type Network struct {
@@ -99,9 +84,6 @@ type IP struct {
 	Type      string `json:"type"`
 }
 
-// IPs is a list of IPs
-type IPs []IP
-
 // InstanceReq defines the fields for a VM creation
 type InstanceReq struct {
 	Name     string `json:"name"`
@@ -116,16 +98,16 @@ type InstancesList []Instance
 
 // Instance is a go representation of Cloud instance
 type Instance struct {
-	Name           string `json:"name"`
-	ID             string `json:"id"`
-	Status         string `json:"status"`
-	Created        string `json:"created"`
-	Region         string `json:"region"`
-	Image          Image  `json:"image"`
-	Flavor         Flavor `json:"flavor"`
-	Sshkey         Sshkey `json:"sshKey"`
-	IPAddresses    IPs    `json:"ipAddresses"`
-	MonthlyBilling string `json:"monthlyBilling"`
+	Name           string  `json:"name"`
+	ID             string  `json:"id"`
+	Status         string  `json:"status"`
+	Created        string  `json:"created"`
+	Region         string  `json:"region"`
+	Image          *Image  `json:"image"`
+	Flavor         *Flavor `json:"flavor"`
+	Sshkey         *Sshkey `json:"sshKey"`
+	IPAddresses    []IP    `json:"ipAddresses"`
+	MonthlyBilling *string `json:"monthlyBilling"`
 }
 
 // RebootReq defines the fields for a VM reboot
@@ -188,9 +170,10 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 }
 
 // CloudGetImages returns a list of images for a given project in a given region
-func (c *Client) CloudGetImages(projectID, region string) (images Images, err error) {
+func (c *Client) CloudGetImages(projectID, region string) ([]Image, error) {
 	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectID, region)
-	err = c.OVHClient.Get(path, &images)
+	images := []Image{}
+	err := c.OVHClient.Get(path, &images)
 	return images, err
 }
 
@@ -229,15 +212,8 @@ func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
 func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	instances := []Instance{}
-	icl := []string{}
-	e := c.OVHClient.Get(path, &icl)
-	if e != nil {
-		return nil, e
-	}
-	for _, id := range icl {
-		instances = append(instances, Instance{ID: id})
+	e := c.OVHClient.Get(path, &instances)
 
-	}
 	return instances, e
 }
 

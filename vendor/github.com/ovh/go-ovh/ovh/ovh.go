@@ -198,7 +198,6 @@ func (c *Client) getResponse(response *http.Response, resType interface{}) error
 	if len(body) == 0 || resType == nil {
 		return nil
 	}
-
 	return json.Unmarshal(body, &resType)
 }
 

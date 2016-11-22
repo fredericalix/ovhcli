@@ -68,9 +68,11 @@ type Sshkey struct {
 
 // Regions is a go representation of Cloud Regions
 type Regions struct {
-	Region        string `json:"region,omitempty"`
-	Status        string `json:"status,omitempty"`
-	ContinentCode string `json:"continentCode,omitempty"`
+	Region             string `json:"region,omitempty"`
+	Status             string `json:"status,omitempty"`
+	ContinentCode      string `json:"continentCode,omitempty"`
+	DatacenterLocation string `json:"datacenterLocation,omitempty"`
+	Name               string `json:"name"`
 	// Services      *string `json:"services"`
 }
 

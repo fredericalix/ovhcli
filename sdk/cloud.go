@@ -184,6 +184,14 @@ func (c *Client) CloudListRegions(projectID string) ([]Regions, error) {
 	return regions, e
 }
 
+// CloudInfoRegion return services status on a region
+func (c *Client) CloudInfoRegion(projectID, regionName string) (*Regions, error) {
+	region := &Regions{}
+	path := fmt.Sprintf("/cloud/project/%s/region/%s", projectID, regionName)
+	err := c.OVHClient.Get(path, region)
+	return region, err
+}
+
 // CloudGetImages returns a list of images for a given project in a given region
 func (c *Client) CloudGetImages(projectID, region string) ([]Image, error) {
 	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectID, region)

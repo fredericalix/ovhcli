@@ -188,12 +188,12 @@ func (c *Client) CloudGetInstance(projectID, instanceID string) (instance *Insta
 }
 
 // CloudCreateInstance start a new public cloud instance and returns resulting object
-func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, ImageID, region string) (instance *Instance, err error) {
+func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, imageID, region string) (instance *Instance, err error) {
 	var instanceReq InstanceReq
 	instanceReq.Name = name
 	instanceReq.SshkeyID = pubkeyID
 	instanceReq.FlavorID = flavorID
-	instanceReq.ImageID = ImageID
+	instanceReq.ImageID = imageID
 	instanceReq.Region = region
 
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
@@ -248,4 +248,18 @@ func (c *Client) CloudInfoNetworkPrivate(projectID string) ([]Network, error) {
 	e := c.OVHClient.Get(path, &network)
 
 	return network, e
+}
+
+// CloudCreateNetworkPrivate create a private network in a vrack
+func (c *Client) CloudCreateNetworkPrivate(projectID, name string, regions []Regions, vlanid int) (net *Network, err error) {
+	var project Project
+	project.ID = projectID
+	var network Network
+	network.Name = name
+	network.VlanID = vlanid
+	network.Regions = regions
+	path := fmt.Sprintf("/cloud/project/%s/network/private", projectID)
+	err = c.OVHClient.Post(path, network, &net)
+
+	return net, err
 }

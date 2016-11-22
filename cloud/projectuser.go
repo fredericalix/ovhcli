@@ -70,17 +70,20 @@ var (
 			u, err := internal.Client.CloudProjectUserCreate(projectID, descriptionFlag)
 			internal.Check(err)
 
-			regions, err := internal.Client.CloudProjectRegionList(projectID)
-			internal.Check(err)
-
 			if envFlag {
+				regions, err := internal.Client.CloudProjectRegionList(projectID)
+				internal.Check(err)
+
 				fmt.Println("export OS_AUTH_URL=https://auth.cloud.ovh.net/v2")
 				fmt.Printf("# Available regions : %s\n", strings.Join(regions, ", "))
 				fmt.Printf("export OS_REGION_NAME=%s\n", regions[0])
 				fmt.Printf("export OS_TENANT_ID=%s\n", projectID)
 				fmt.Printf("export OS_USERNAME=%s\n", u.Username)
 				fmt.Printf("export OS_PASSWORD=%s\n", u.Password)
+				return
 			}
+
+			internal.FormatOutputDef(u)
 		},
 	}
 )

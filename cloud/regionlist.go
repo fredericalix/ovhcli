@@ -29,6 +29,7 @@ var cmdCloudRegionList = &cobra.Command{
 				regionsComplete = append(regionsComplete, *r)
 			}
 			regions = regionsComplete
+
 		}
 
 		internal.FormatOutputDef(regions)

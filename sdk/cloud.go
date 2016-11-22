@@ -23,99 +23,101 @@ type Project struct {
 
 // Image is a go representation of a Cloud Image (VM template)
 type Image struct {
-	Region       string  `json:"region"`
-	Name         string  `json:"name"`
-	ID           string  `json:"id"`
-	OS           string  `json:"type"`
-	CreationDate string  `json:"creationDate"`
-	Status       string  `json:"status"`
-	MinDisk      int     `json:"minDisk"`
-	Visibility   string  `json:"visibility"`
-	Size         float32 `json:"size"`
-	MinRAM       int     `json:"minRam"`
-	User         string  `json:"user"`
+	Region       string  `json:"region,omitempty"`
+	Name         string  `json:"name,omitempty"`
+	ID           string  `json:"id,omitempty"`
+	OS           string  `json:"type,omitempty"`
+	CreationDate string  `json:"creationDate,omitempty"`
+	Status       string  `json:"status,omitempty"`
+	MinDisk      int     `json:"minDisk,omitempty"`
+	Visibility   string  `json:"visibility,omitempty"`
+	Size         float32 `json:"size,omitempty"`
+	MinRAM       int     `json:"minRam,omitempty"`
+	User         string  `json:"user,omitempty"`
 }
 
 // Flavor is a go representation of Cloud Flavor
 type Flavor struct {
-	Region            string `json:"region"`
-	Name              string `json:"name"`
-	ID                string `json:"id"`
-	OS                string `json:"osType"`
-	Vcpus             int    `json:"vcpus"`
-	MemoryGB          int    `json:"ram"`
-	DiskSpaceGB       int    `json:"disk"`
-	Type              string `json:"type"`
-	InboundBandwidth  int    `json:"inboundBandwidth"`
-	OutboundBandwidth int    `json:"outboundBandwidth"`
+	Region            string `json:"region,omitempty"`
+	Name              string `json:"name,omitempty"`
+	ID                string `json:"id,omitempty"`
+	OS                string `json:"osType,omitempty"`
+	Vcpus             int    `json:"vcpus,omitempty"`
+	MemoryGB          int    `json:"ram,omitempty"`
+	DiskSpaceGB       int    `json:"disk,omitempty"`
+	Type              string `json:"type,omitempty"`
+	InboundBandwidth  int    `json:"inboundBandwidth,omitempty"`
+	OutboundBandwidth int    `json:"outboundBandwidth,omitempty"`
 }
 
 // SshkeyReq defines the fields for an SSH Key upload
 type SshkeyReq struct {
-	Name      string `json:"name"`
-	PublicKey string `json:"publicKey"`
-	Region    string `json:"region"`
+	Name      string `json:"name,omitempty"`
+	PublicKey string `json:"publicKey,omitempty"`
+	Region    string `json:"region,omitempty"`
 }
 
 // Sshkey is a go representation of Cloud SSH Key
 type Sshkey struct {
-	Name        string `json:"name"`
-	ID          string `json:"id"`
-	PublicKey   string `json:"publicKey"`
-	Fingerprint string `json:"fingerPrint"`
+	Name        string `json:"name,omitempty"`
+	ID          string `json:"id,omitempty"`
+	PublicKey   string `json:"publicKey,omitempty"`
+	Fingerprint string `json:"fingerPrint,omitempty"`
 	//Regions     Regions `json:"regions"`
 }
 
 // Regions is a go representation of Cloud Regions
 type Regions struct {
-	Region string `json:"region"`
-	Status string `json:"status"`
+	Region        string `json:"region,omitempty"`
+	Status        string `json:"status,omitempty"`
+	ContinentCode string `json:"continentCode,omitempty"`
+	// Services      *string `json:"services"`
 }
 
 // Network is a go representation of a Cloud IP address
 type Network struct {
-	ID      string    `json:"id"`
-	Name    string    `json:"name"`
-	Status  string    `json:"status"`
-	Type    string    `json:"type"`
-	VlanID  int       `json:"vlanId"`
-	Regions []Regions `json:"regions"`
+	ID      string    `json:"id,omitempty"`
+	Name    string    `json:"name,omitempty"`
+	Status  string    `json:"status,omitempty"`
+	Type    string    `json:"type,omitempty"`
+	VlanID  int       `json:"vlanId,omitempty"`
+	Regions []Regions `json:"regions,omitempty"`
 }
 
 // IP is a go representation of a Cloud IP address
 type IP struct {
-	IP        string `json:"ip"`
-	NetworkID string `json:"networkId"`
-	Version   int    `json:"version"`
-	Type      string `json:"type"`
+	IP        string `json:"ip,omitempty"`
+	NetworkID string `json:"networkId,omitempty"`
+	Version   int    `json:"version,omitempty"`
+	Type      string `json:"type,omitempty"`
 }
 
 // InstanceReq defines the fields for a VM creation
 type InstanceReq struct {
-	Name     string `json:"name"`
-	FlavorID string `json:"flavorID"`
-	ImageID  string `json:"imageID"`
-	Region   string `json:"region"`
-	SshkeyID string `json:"sshKeyID"`
+	Name     string `json:"name,omitempty"`
+	FlavorID string `json:"flavorID,omitempty"`
+	ImageID  string `json:"imageID,omitempty"`
+	Region   string `json:"region,omitempty"`
+	SshkeyID string `json:"sshKeyID,omitempty"`
 }
 
 // Instance is a go representation of Cloud instance
 type Instance struct {
-	Name           string  `json:"name"`
-	ID             string  `json:"id"`
-	Status         string  `json:"status"`
-	Created        string  `json:"created"`
-	Region         string  `json:"region"`
-	Image          *Image  `json:"image"`
-	Flavor         *Flavor `json:"flavor"`
-	Sshkey         *Sshkey `json:"sshKey"`
-	IPAddresses    []IP    `json:"ipAddresses"`
-	MonthlyBilling *string `json:"monthlyBilling"`
+	Name           string  `json:"name,omitempty"`
+	ID             string  `json:"id,omitempty"`
+	Status         string  `json:"status,omitempty"`
+	Created        string  `json:"created,omitempty"`
+	Region         string  `json:"regio,omitemptyn"`
+	Image          *Image  `json:"image,omitempty"`
+	Flavor         *Flavor `json:"flavor,omitempty"`
+	Sshkey         *Sshkey `json:"sshKey,omitempty"`
+	IPAddresses    []IP    `json:"ipAddresses,omitempty"`
+	MonthlyBilling *string `json:"monthlyBilling,omitempty"`
 }
 
 // RebootReq defines the fields for a VM reboot
 type RebootReq struct {
-	Type string `json:"type"`
+	Type string `json:"type,omitempty"`
 }
 
 // CloudProjectsList returns a list of string project ID

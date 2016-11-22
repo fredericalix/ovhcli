@@ -172,6 +172,18 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 	return nil, fmt.Errorf("Project '%s' does not exist on OVH cloud. To create or rename a project, please visit %s", projectName, CustomerInterface)
 }
 
+// CloudListRegions return a list of network regions
+func (c *Client) CloudListRegions(projectID string) ([]Regions, error) {
+	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
+	var resultsreq []string
+	e := c.OVHClient.Get(path, &resultsreq)
+	regions := []Regions{}
+	for _, resultreq := range resultsreq {
+		regions = append(regions, Regions{Region: resultreq})
+	}
+	return regions, e
+}
+
 // CloudGetImages returns a list of images for a given project in a given region
 func (c *Client) CloudGetImages(projectID, region string) ([]Image, error) {
 	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectID, region)

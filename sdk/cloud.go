@@ -2,6 +2,7 @@ package sdk
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/ovh/go-ovh/ovh"
 )
@@ -113,6 +114,16 @@ type Instance struct {
 	Sshkey         *Sshkey `json:"sshKey,omitempty"`
 	IPAddresses    []IP    `json:"ipAddresses,omitempty"`
 	MonthlyBilling *string `json:"monthlyBilling,omitempty"`
+}
+
+// User is a go representation of Cloud user instance
+type User struct {
+	CreationDate time.Time `json:"creationDate"`
+	Status       string    `json:"status"`
+	ID           int       `json:"id"`
+	Description  string    `json:"description"`
+	Username     string    `json:"username"`
+	Password     string    `json:"password"`
 }
 
 // RebootReq defines the fields for a VM reboot
@@ -284,4 +295,28 @@ func (c *Client) CloudCreateNetworkPrivate(projectID, name string, regions []Reg
 	err = c.OVHClient.Post(path, network, &net)
 
 	return net, err
+}
+
+// CloudProjectUsersList return the list of users by given a project id
+func (c *Client) CloudProjectUsersList(projectID string) ([]User, error) {
+	path := fmt.Sprintf("/cloud/project/%s/user", projectID)
+	users := []User{}
+	return users, c.OVHClient.Get(path, &users)
+}
+
+// CloudProjectUserCreate return the list of users by given a project id
+func (c *Client) CloudProjectUserCreate(projectID, description string) (User, error) {
+	path := fmt.Sprintf("/cloud/project/%s/user", projectID)
+	data := map[string]string{
+		"description": description,
+	}
+	user := User{}
+	return user, c.OVHClient.Post(path, data, &user)
+}
+
+// CloudProjectRegionList return the list of region by given a project id
+func (c *Client) CloudProjectRegionList(projectID string) ([]string, error) {
+	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
+	regions := []string{}
+	return regions, c.OVHClient.Get(path, &regions)
 }

@@ -9,7 +9,7 @@ import (
 var withDetails bool
 
 func init() {
-	cmdProjectList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display project details")
+	cmdProjectList.Flags().BoolVarP(&withDetails, "withDetails", "", false, "Display project details")
 }
 
 var cmdProjectList = &cobra.Command{

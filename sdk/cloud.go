@@ -60,11 +60,11 @@ type SshkeyReq struct {
 
 // Sshkey is a go representation of Cloud SSH Key
 type Sshkey struct {
-	Name        string `json:"name,omitempty"`
-	ID          string `json:"id,omitempty"`
-	PublicKey   string `json:"publicKey,omitempty"`
-	Fingerprint string `json:"fingerPrint,omitempty"`
-	//Regions     Regions `json:"regions"`
+	Name        string   `json:"name,omitempty"`
+	ID          string   `json:"id,omitempty"`
+	PublicKey   string   `json:"publicKey,omitempty"`
+	Fingerprint string   `json:"fingerPrint,omitempty"`
+	Regions     []string `json:"regions"`
 }
 
 // Regions is a go representation of Cloud Regions
@@ -74,7 +74,10 @@ type Regions struct {
 	ContinentCode      string `json:"continentCode,omitempty"`
 	DatacenterLocation string `json:"datacenterLocation,omitempty"`
 	Name               string `json:"name"`
-	// Services      *string `json:"services"`
+	Services           []struct {
+		Name   string `json:"name,omitempty"`
+		Status string `json:"status,omitempty"`
+	} `json:"services,omitempty"`
 }
 
 // Network is a go representation of a Cloud IP address
@@ -110,7 +113,7 @@ type Instance struct {
 	ID             string  `json:"id,omitempty"`
 	Status         string  `json:"status,omitempty"`
 	Created        string  `json:"created,omitempty"`
-	Region         string  `json:"regio,omitemptyn"`
+	Region         string  `json:"region,omitemptyn"`
 	Image          *Image  `json:"image,omitempty"`
 	Flavor         *Flavor `json:"flavor,omitempty"`
 	Sshkey         *Sshkey `json:"sshKey,omitempty"`

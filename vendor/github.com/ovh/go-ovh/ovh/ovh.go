@@ -198,7 +198,7 @@ func (c *Client) getResponse(response *http.Response, resType interface{}) error
 	if len(body) == 0 || resType == nil {
 		return nil
 	}
-	// FRED fmt.Printf("div:%s and %T", body, &resType)
+
 	return json.Unmarshal(body, &resType)
 }
 

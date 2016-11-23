@@ -6,10 +6,10 @@ import "fmt"
 type Vrack struct {
 
 	// "Vrack name"
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// "Vrack decription"
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 }
 
 // VrackList ...

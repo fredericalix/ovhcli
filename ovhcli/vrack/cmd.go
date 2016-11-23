@@ -9,6 +9,6 @@ func init() {
 // Cmd vrack
 var Cmd = &cobra.Command{
 	Use:   "vrack",
-	Short: "Domain commands: ovhcli vrack --help",
-	Long:  `Domain commands: ovhcli vrack <command>`,
+	Short: "Vrack commands: ovhcli vrack --help",
+	Long:  `Vrack commands: ovhcli vrack <command>`,
 }

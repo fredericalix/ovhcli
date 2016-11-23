@@ -1,4 +1,4 @@
-package cloud
+package sshkey
 
 import (
 	"fmt"
@@ -9,12 +9,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var sshkeyID string
-
 func init() {
 	cmdCloudSSHKeyDelete.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
-	cmdCloudSSHKeyDelete.PersistentFlags().StringVarP(&sshkeyID, "sshkeyID", "", "", "Your sshkey ID to delete")
-
+	cmdCloudSSHKeyDelete.PersistentFlags().StringVarP(&pubkeyID, "sshkeyID", "", "", "Your sshkey ID to delete")
 }
 
 var cmdCloudSSHKeyDelete = &cobra.Command{
@@ -25,10 +22,10 @@ var cmdCloudSSHKeyDelete = &cobra.Command{
 		client, err := ovh.NewClient()
 		common.Check(err)
 
-		err = client.CloudProjectSSHKeyDelete(projectID, sshkeyID)
+		err = client.CloudProjectSSHKeyDelete(projectID, pubkeyID)
 		common.Check(err)
 
-		fmt.Printf("Public SSH key %s deleted:\n", sshkeyID)
+		fmt.Printf("Public SSH key %s deleted:\n", pubkeyID)
 
 	},
 }

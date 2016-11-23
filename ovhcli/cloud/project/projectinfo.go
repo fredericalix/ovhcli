@@ -1,4 +1,4 @@
-package cloud
+package project
 
 import (
 	"github.com/spf13/cobra"
@@ -7,14 +7,7 @@ import (
 	"github.com/admdwrf/ovhcli/ovhcli/common"
 )
 
-func init() {
-	cmdProjectInfo.PersistentFlags().StringVarP(&projectID, "id", "", "", "Your ID Project")
-	cmdProjectInfo.PersistentFlags().StringVarP(&projectName, "name", "", "", "Your Project Name")
-}
-
 var (
-	projectName string
-
 	cmdProjectInfo = &cobra.Command{
 		Use:   "info",
 		Short: "Info about a project",

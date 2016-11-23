@@ -1,4 +1,4 @@
-package cloud
+package sshkey
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -8,7 +8,6 @@ import (
 
 func init() {
 	cmdCloudSSHKeyList.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
-
 }
 
 var cmdCloudSSHKeyList = &cobra.Command{

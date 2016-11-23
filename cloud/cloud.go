@@ -7,6 +7,7 @@ func init() {
 	Cmd.AddCommand(cmdCloudInstance)
 	Cmd.AddCommand(cmdCloudRegion)
 	Cmd.AddCommand(cmdCloudNetwork)
+	Cmd.AddCommand(cmdCloudSSHkey)
 
 }
 

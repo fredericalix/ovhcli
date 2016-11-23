@@ -73,7 +73,7 @@ type Regions struct {
 	Status             string `json:"status,omitempty"`
 	ContinentCode      string `json:"continentCode,omitempty"`
 	DatacenterLocation string `json:"datacenterLocation,omitempty"`
-	Name               string `json:"name"`
+	Name               string `json:"name,omitempty"`
 	Services           []struct {
 		Name   string `json:"name,omitempty"`
 		Status string `json:"status,omitempty"`
@@ -82,12 +82,15 @@ type Regions struct {
 
 // Network is a go representation of a Cloud IP address
 type Network struct {
-	ID      string    `json:"id,omitempty"`
-	Name    string    `json:"name,omitempty"`
-	Status  string    `json:"status,omitempty"`
-	Type    string    `json:"type,omitempty"`
-	VlanID  int       `json:"vlanId,omitempty"`
-	Regions []Regions `json:"regions,omitempty"`
+	ID      string `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Regions []struct {
+		Region string `json:"region,omitempty"`
+		Status string `json:"status,omitempty"`
+	} `json:"regions,omitempty"`
+	Status string `json:"status,omitempty"`
+	Type   string `json:"type,omitempty"`
+	VlanID int    `json:"vlanId,omitempty"`
 }
 
 // IP is a go representation of a Cloud IP address
@@ -289,13 +292,15 @@ func (c *Client) CloudInfoNetworkPrivate(projectID string) ([]Network, error) {
 }
 
 // CloudCreateNetworkPrivate create a private network in a vrack
-func (c *Client) CloudCreateNetworkPrivate(projectID, name string, regions []Regions, vlanid int) (net *Network, err error) {
+//func (c *Client) CloudCreateNetworkPrivate(projectID, name string, regions []Regions, vlanid int) (net *Network, err error) {
+func (c *Client) CloudCreateNetworkPrivate(projectID, name, regions string, vlanid int) (net *Network, err error) {
+
 	var project Project
 	project.ID = projectID
 	var network Network
 	network.Name = name
 	network.VlanID = vlanid
-	network.Regions = regions
+	//network.[]Regions = regions
 	path := fmt.Sprintf("/cloud/project/%s/network/private", projectID)
 	err = c.OVHClient.Post(path, network, &net)
 
@@ -324,4 +329,18 @@ func (c *Client) CloudProjectRegionList(projectID string) ([]string, error) {
 	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
 	regions := []string{}
 	return regions, c.OVHClient.Get(path, &regions)
+}
+
+// CloudProjectSSHKeyList return the list of ssh keys by given a project id
+func (c *Client) CloudProjectSSHKeyList(projectID string) ([]Sshkey, error) {
+	path := fmt.Sprintf("/cloud/project/%s/sshkey", projectID)
+	sshkeys := []Sshkey{}
+	return sshkeys, c.OVHClient.Get(path, &sshkeys)
+}
+
+// CloudProjectSSHKeyInfo return info about a ssh keys
+func (c *Client) CloudProjectSSHKeyInfo(projectID, sshkeyID string) (*Sshkey, error) {
+	path := fmt.Sprintf("/cloud/project/%s/sshkey/%s", projectID, sshkeyID)
+	sshkeys := &Sshkey{}
+	return sshkeys, c.OVHClient.Get(path, &sshkeys)
 }

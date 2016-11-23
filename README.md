@@ -4,10 +4,10 @@
 # Build
 
 ```bash
-mkdir -p $GOPATH/github.com/admdwrf/
-cd $GOPATH/github.com/admdwrf/
+mkdir -p $GOPATH/src/github.com/admdwrf/
+cd $GOPATH/src/github.com/admdwrf/
 git clone git@github.com:admdwrf/ovhcli.git
-cd $GOPATH/github.com/admdwrf/ovhcli/ovhcli
+cd $GOPATH/src/github.com/admdwrf/ovhcli/ovhcli
 go build
 ./ovhcli -h
 ```

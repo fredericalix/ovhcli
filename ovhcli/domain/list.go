@@ -47,12 +47,12 @@ func getDetailledDomainList(client *ovh.Client, domains []ovh.Domain) []ovh.Doma
 			domainsChan <- *d
 		}(domain)
 	}
-	go func() {
+	go func(wg *sync.WaitGroup) {
 		for d := range domainsChan {
 			domainsComplete = append(domainsComplete, d)
 			wg.Done()
 		}
-	}()
+	}(&wg)
 	wg.Wait()
 	return domainsComplete
 }

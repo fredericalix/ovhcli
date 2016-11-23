@@ -16,6 +16,7 @@ var cmdContainersServicesList = &cobra.Command{
 
 		containersservices, err := client.ContainersServicesList()
 		common.Check(err)
+
 		common.FormatOutputDef(containersservices)
 	},
 }

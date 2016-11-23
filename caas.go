@@ -4,30 +4,33 @@ import "fmt"
 
 // ContainersService is a representation of a Containers Service
 type ContainersService struct {
-	Cluster      string   `json:"cluster"`
-	CreatedAt    string   `json:"createdAt"`
-	Frameworks   []string `json:"frameworks"`
-	LoadBalancer string   `json:"loadBalancer"`
+	Cluster      string   `json:"cluster,omitempty"`
+	CreatedAt    string   `json:"createdAt,omitempty"`
+	Frameworks   []string `json:"frameworks,omitempty"`
+	LoadBalancer string   `json:"loadBalancer,omitempty"`
 	Metrics      struct {
 		Resources struct {
-			CPU int `json:"cpu"`
-			Mem int `json:"mem"`
-		} `json:"resources"`
+			CPU int `json:"cpu,omitempty"`
+			Mem int `json:"mem,omitempty"`
+		} `json:"resources,omitempty"`
 		UsedResources struct {
-			CPU float64 `json:"cpu"`
-			Mem int     `json:"mem"`
-		} `json:"usedResources"`
-	} `json:"metrics"`
-	Name      string   `json:"name"`
-	Slaves    []string `json:"slaves"`
-	State     string   `json:"state"`
-	UpdatedAt string   `json:"updatedAt"`
+			CPU float64 `json:"cpu,omitempty"`
+			Mem int     `json:"mem,omitempty"`
+		} `json:"usedResources,omitempty"`
+	} `json:"metrics,omitempty"`
+	Name      string   `json:"name,omitempty"`
+	Slaves    []string `json:"slaves,omitempty"`
+	State     string   `json:"state,omitempty"`
+	UpdatedAt string   `json:"updatedAt,omitempty"`
 }
 
 // ContainersServicesList ...
-func (c *Client) ContainersServicesList() ([]ContainersService, error) {
-	containersservices := []ContainersService{}
-	e := c.OVHClient.Get("/caas/containers", &containersservices)
+func (c *Client) ContainersServicesList() ([]string, error) {
+	path := fmt.Sprintf("/caas/containers")
+	containersservices := []string{}
+
+	e := c.OVHClient.Get(path, &containersservices)
+
 	return containersservices, e
 }
 

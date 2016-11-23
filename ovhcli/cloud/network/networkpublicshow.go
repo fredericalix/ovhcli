@@ -1,4 +1,4 @@
-package cloud
+package network
 
 import (
 	ovh "github.com/admdwrf/ovhcli"

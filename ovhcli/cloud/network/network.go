@@ -1,15 +1,15 @@
-package cloud
+package network
 
 import "github.com/spf13/cobra"
 
 func init() {
-	cmdCloudNetwork.AddCommand(cmdCloudNetworkPublic)
-	cmdCloudNetwork.AddCommand(cmdCloudNetworkPrivate)
+	Cmd.AddCommand(cmdCloudNetworkPublic)
+	Cmd.AddCommand(cmdCloudNetworkPrivate)
 
 }
 
 // cmdCloudNetwork ...
-var cmdCloudNetwork = &cobra.Command{
+var Cmd = &cobra.Command{
 	Use:     "network",
 	Short:   "Network commands: ovhcli cloud network --help",
 	Long:    `Network commands: ovhcli cloud network <command>`,

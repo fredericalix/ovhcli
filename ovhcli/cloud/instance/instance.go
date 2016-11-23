@@ -1,17 +1,17 @@
-package cloud
+package instance
 
 import "github.com/spf13/cobra"
 
 func init() {
-	cmdCloudInstance.AddCommand(cmdInstanceDelete)
-	cmdCloudInstance.AddCommand(cmdInstanceCreate)
-	cmdCloudInstance.AddCommand(cmdInstanceList)
-	cmdCloudInstance.AddCommand(cmdInstanceInfo)
+	Cmd.AddCommand(cmdInstanceDelete)
+	Cmd.AddCommand(cmdInstanceCreate)
+	Cmd.AddCommand(cmdInstanceList)
+	Cmd.AddCommand(cmdInstanceInfo)
 
 }
 
 // cmdCloudInstance ...
-var cmdCloudInstance = &cobra.Command{
+var Cmd = &cobra.Command{
 	Use:     "instance",
 	Short:   "Instance commands: ovhcli cloud instance --help",
 	Long:    `Instance commands: ovhcli cloud instance <command>`,

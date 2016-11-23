@@ -1,4 +1,4 @@
-package cloud
+package sshkey
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -11,7 +11,6 @@ func init() {
 	cmdCloudSSHKeyCreate.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
 	cmdCloudSSHKeyCreate.PersistentFlags().StringVarP(&pubkeyID, "pubkeyID", "", "", "Your sshkey ID to put")
 	cmdCloudSSHKeyCreate.PersistentFlags().StringVarP(&name, "name", "", "", "Your sshkey name to put")
-
 }
 
 var cmdCloudSSHKeyCreate = &cobra.Command{

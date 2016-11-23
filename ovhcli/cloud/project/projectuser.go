@@ -1,4 +1,4 @@
-package cloud
+package project
 
 import (
 	"fmt"
@@ -11,8 +11,6 @@ import (
 )
 
 func init() {
-	cmdProjectUser.PersistentFlags().StringVarP(&projectID, "id", "", "", "Your ID Project")
-	cmdProjectUser.PersistentFlags().StringVarP(&projectName, "name", "", "", "Your Project Name")
 	cmdProjectUser.AddCommand(cmdProjectUserList)
 	cmdProjectUser.AddCommand(cmdProjectCreate)
 

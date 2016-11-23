@@ -1,4 +1,4 @@
-package cloud
+package instance
 
 import (
 	ovh "github.com/admdwrf/ovhcli"

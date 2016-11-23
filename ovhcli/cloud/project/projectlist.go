@@ -1,4 +1,4 @@
-package cloud
+package project
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var withDetails bool
 
 func init() {
 	cmdProjectList.Flags().BoolVarP(&withDetails, "withDetails", "", false, "Display project details")

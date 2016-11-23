@@ -8,12 +8,12 @@ type ContainersService struct {
 	CreatedAt    string   `json:"createdAt,omitempty"`
 	Frameworks   []string `json:"frameworks,omitempty"`
 	LoadBalancer string   `json:"loadBalancer,omitempty"`
-	Metrics      struct {
-		Resources struct {
+	Metrics      *struct {
+		Resources *struct {
 			CPU int `json:"cpu,omitempty"`
 			Mem int `json:"mem,omitempty"`
 		} `json:"resources,omitempty"`
-		UsedResources struct {
+		UsedResources *struct {
 			CPU float64 `json:"cpu,omitempty"`
 			Mem int     `json:"mem,omitempty"`
 		} `json:"usedResources,omitempty"`
@@ -25,12 +25,13 @@ type ContainersService struct {
 }
 
 // ContainersServicesList ...
-func (c *Client) ContainersServicesList() ([]string, error) {
-	path := fmt.Sprintf("/caas/containers")
-	containersservices := []string{}
-
-	e := c.OVHClient.Get(path, &containersservices)
-
+func (c *Client) ContainersServicesList() ([]ContainersService, error) {
+	var contlist []string
+	e := c.OVHClient.Get("/caas/containers", &contlist)
+	containersservices := []ContainersService{}
+	for _, cont := range contlist {
+		containersservices = append(containersservices, ContainersService{Name: cont})
+	}
 	return containersservices, e
 }
 

@@ -344,3 +344,24 @@ func (c *Client) CloudProjectSSHKeyInfo(projectID, sshkeyID string) (*Sshkey, er
 	sshkeys := &Sshkey{}
 	return sshkeys, c.OVHClient.Get(path, &sshkeys)
 }
+
+// CloudProjectSSHKeyDelete delete a ssh key
+func (c *Client) CloudProjectSSHKeyDelete(projectID, sshkeyID string) (err error) {
+	path := fmt.Sprintf("/cloud/project/%s/sshkey/%s", projectID, sshkeyID)
+	err = c.OVHClient.Delete(path, nil)
+	if apierror, ok := err.(*ovh.APIError); ok && apierror.Code == 404 {
+		err = nil
+	}
+	return err
+}
+
+// CloudProjectSSHKeyCreate return the list of users by given a project id
+func (c *Client) CloudProjectSSHKeyCreate(projectID, publicKey, name string) (Sshkey, error) {
+	path := fmt.Sprintf("/cloud/project/%s/sshkey", projectID)
+	data := map[string]string{
+		"publicKey": publicKey,
+		"name":      name,
+	}
+	sshkey := Sshkey{}
+	return sshkey, c.OVHClient.Post(path, data, &sshkey)
+}

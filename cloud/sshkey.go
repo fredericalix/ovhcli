@@ -4,6 +4,8 @@ import "github.com/spf13/cobra"
 
 func init() {
 	cmdCloudSSHkey.AddCommand(cmdCloudSSHKeyList)
+	cmdCloudSSHkey.AddCommand(cmdCloudSSHKeyCreate)
+	cmdCloudSSHkey.AddCommand(cmdCloudSSHKeyDelete)
 
 }
 

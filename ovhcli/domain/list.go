@@ -1,8 +1,6 @@
 package domain
 
 import (
-	"sync"
-
 	ovh "github.com/admdwrf/ovhcli"
 	"github.com/admdwrf/ovhcli/ovhcli/common"
 
@@ -35,24 +33,29 @@ var cmdDomainList = &cobra.Command{
 }
 
 func getDetailledDomainList(client *ovh.Client, domains []ovh.Domain) []ovh.Domain {
-	var wg sync.WaitGroup
-	wg.Add(len(domains))
 
-	domainsChan := make(chan ovh.Domain)
-	domainsComplete := []ovh.Domain{}
+	domainsChan, errChan := make(chan ovh.Domain), make(chan error)
 	for _, domain := range domains {
 		go func(domain ovh.Domain) {
 			d, err := client.DomainInfo(domain.Domain)
-			common.Check(err)
+			if err != nil {
+				errChan <- err
+				return
+			}
 			domainsChan <- *d
 		}(domain)
 	}
-	go func(wg *sync.WaitGroup) {
-		for d := range domainsChan {
-			domainsComplete = append(domainsComplete, d)
-			wg.Done()
+
+	domainsComplete := []ovh.Domain{}
+
+	for i := 0; i < len(domains); i++ {
+		select {
+		case domains := <-domainsChan:
+			domainsComplete = append(domainsComplete, domains)
+		case err := <-errChan:
+			common.Check(err)
 		}
-	}(&wg)
-	wg.Wait()
+	}
+
 	return domainsComplete
 }

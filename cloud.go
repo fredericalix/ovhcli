@@ -229,14 +229,22 @@ func (c *Client) CloudGetInstance(projectID, instanceID string) (instance *Insta
 }
 
 // CloudCreateInstance start a new public cloud instance and returns resulting object
+// func (c *Client) CloudCreateInstance(instanceReq InstanceReq, projectID string) (instance *Instance, err error) {
+// instanceReq := InstanceReq{
+// 	Name:     name,
+// 	SshkeyID: pubkeyID,
+// 	FlavorID: flavorID,
+// 	ImageID:  imageID,
+// 	Region:   region,
+// }
 func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, imageID, region string) (instance *Instance, err error) {
-	var instanceReq InstanceReq
-	instanceReq.Name = name
-	instanceReq.SshkeyID = pubkeyID
-	instanceReq.FlavorID = flavorID
-	instanceReq.ImageID = imageID
-	instanceReq.Region = region
-
+	instanceReq := InstanceReq{
+		Name:     name,
+		SshkeyID: pubkeyID,
+		FlavorID: flavorID,
+		ImageID:  imageID,
+		Region:   region,
+	}
 	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
 	err = c.OVHClient.Post(path, instanceReq, &instance)
 	return instance, err

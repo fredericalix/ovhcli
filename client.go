@@ -21,7 +21,7 @@ func NewClient() (*Client, error) {
 
 	c, err := govh.NewDefaultClient()
 	if err != nil {
-		return nil, fmt.Errorf("Error while creating OVH Client: %s", err)
+		return nil, fmt.Errorf("Error while creating OVH Client: %s\nYou need to create an application; please visite this page https://eu.api.ovh.com/createApp/ and create your $HOME/ovh.conf file\n\t[default]\n\t; general configuration: default endpoint\n\tendpoint=ovh-eu\n\n\t[ovh-eu]\n\t; configuration specific to 'ovh-eu' endpoint\n\tapplication_key=my_app_key", err)
 	}
 	instance := &Client{}
 	instance.OVHClient = c

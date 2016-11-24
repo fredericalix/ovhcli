@@ -8,6 +8,7 @@ import (
 	"github.com/admdwrf/ovhcli/ovhcli/caas"
 	"github.com/admdwrf/ovhcli/ovhcli/cloud"
 	"github.com/admdwrf/ovhcli/ovhcli/common"
+	"github.com/admdwrf/ovhcli/ovhcli/connect"
 	"github.com/admdwrf/ovhcli/ovhcli/domain"
 	"github.com/admdwrf/ovhcli/ovhcli/version"
 	"github.com/admdwrf/ovhcli/ovhcli/vrack"
@@ -39,6 +40,8 @@ func addCommands() {
 
 	rootCmd.AddCommand(version.Cmd)
 	rootCmd.AddCommand(vrack.Cmd)
+
+	rootCmd.AddCommand(connect.Cmd)
 
 	rootCmd.AddCommand(autocompleteCmd)
 }

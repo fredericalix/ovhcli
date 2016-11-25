@@ -74,8 +74,8 @@ func writeConsumerKey(consumerKey string) (err error) {
 // Cmd domain
 var Cmd = &cobra.Command{
 	Use:   "connect",
-	Short: "Domain commands: ovhcli connect --help",
-	Long:  `Domain commands: ovhcli connect <command>`,
+	Short: "Domain commands: ovhcli connect",
+	Long:  `Domain commands: ovhcli connect`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

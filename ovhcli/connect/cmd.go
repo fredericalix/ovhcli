@@ -1,15 +1,75 @@
 package connect
 
 import (
+	"errors"
 	"fmt"
-	"os"
-	"syscall"
+	"os/user"
+	"path/filepath"
 
 	ovh "github.com/admdwrf/ovhcli"
 	"github.com/admdwrf/ovhcli/ovhcli/common"
+	"github.com/go-ini/ini"
 	govh "github.com/ovh/go-ovh/ovh"
 	"github.com/spf13/cobra"
 )
+
+var (
+	userConfigPath  = "/.ovh.conf" // prefixed with homeDir
+	localConfigPath = "./ovh.conf"
+)
+
+func helper(consumerKey string) error {
+	return fmt.Errorf("Set environment variable OVH_CONSUMER_KEY=%s\n", consumerKey)
+}
+
+func writeConsumerKeyFile(filename string, consumerKey string) (err error) {
+	var cfg *ini.File
+	var section *ini.Section
+	var endpoint string
+	var endpointKey *ini.Key
+
+	if cfg, err = ini.Load(filename); err != nil {
+		return errors.New("Cannot load file " + filename)
+	}
+
+	if defaultSection, err := cfg.GetSection("default"); err == nil {
+		if endpointKey, err = defaultSection.GetKey("endpoint"); err != nil {
+			return errors.New("Cannot read endpoint from configuration")
+		}
+		endpoint = endpointKey.String()
+	} else {
+		return errors.New("Cannot read default section")
+	}
+
+	if section, err = cfg.GetSection(endpoint); err != nil {
+		if section, err = cfg.NewSection(endpoint); err != nil {
+			return errors.New("Cannot create section " + endpoint)
+		}
+	}
+
+	if section.NewKey("consumer_key", consumerKey); err != nil {
+		return errors.New("Cannot create key 'consumer_key'")
+	}
+
+	if err = cfg.SaveTo(filename); err != nil {
+		return errors.New("Cannot save to " + filename)
+	}
+	return
+}
+
+func writeConsumerKey(consumerKey string) (err error) {
+	currentUserConfigPath := localConfigPath
+	if usr, err := user.Current(); err == nil {
+		currentUserConfigPath = filepath.Join(usr.HomeDir, userConfigPath)
+	}
+
+	if err = writeConsumerKeyFile(localConfigPath, consumerKey); err != nil {
+		if err = writeConsumerKeyFile(currentUserConfigPath, consumerKey); err != nil {
+			return helper(consumerKey)
+		}
+	}
+	return
+}
 
 // Cmd domain
 var Cmd = &cobra.Command{
@@ -29,12 +89,12 @@ var Cmd = &cobra.Command{
 		response, err := ckReq.Do()
 		common.Check(err)
 
-		// set consumer key
-		os.Setenv("OVH_CONSUMER_KEY", response.ConsumerKey)
-
 		// Print the validation URL
 		fmt.Printf("Please visit %s to complete your login\n", response.ValidationURL)
 
-		syscall.Exec(os.Getenv("SHELL"), []string{os.Getenv("SHELL")}, syscall.Environ())
+		// set consumer key
+		if err = writeConsumerKey(response.ConsumerKey); err != nil {
+			common.Check(err)
+		}
 	},
 }

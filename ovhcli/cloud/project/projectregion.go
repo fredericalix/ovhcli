@@ -28,11 +28,21 @@ var (
 			client, err := ovh.NewClient()
 			common.Check(err)
 
+			if projectName != "" {
+				p, err := client.CloudProjectInfoByName(projectName)
+				common.Check(err)
+				projectID = p.ID
+			}
+
+			if projectID == "" {
+				common.WrongUsage(cmd)
+			}
+
 			regions, err := client.CloudListRegions(projectID)
 			common.Check(err)
 
 			if withDetails {
-				regionsComplete := []ovh.Regions{}
+				regionsComplete := []ovh.Region{}
 				for _, region := range regions {
 					r, err := client.CloudInfoRegion(projectID, region.Region)
 					common.Check(err)
@@ -43,6 +53,33 @@ var (
 			}
 
 			common.FormatOutputDef(regions)
+		},
+	}
+
+	cmdProjectRegionByName = &cobra.Command{
+		Use:   "info <name>",
+		Short: "Get info for region",
+		Run: func(cmd *cobra.Command, args []string) {
+			if len(args) == 0 {
+				common.WrongUsage(cmd)
+			}
+			client, err := ovh.NewClient()
+			common.Check(err)
+
+			if projectName != "" {
+				p, err := client.CloudProjectInfoByName(projectName)
+				common.Check(err)
+				projectID = p.ID
+			}
+
+			if projectID == "" {
+				common.WrongUsage(cmd)
+			}
+
+			r, err := client.CloudInfoRegion(projectID, args[0])
+			common.Check(err)
+
+			common.FormatOutputDef(r)
 		},
 	}
 )

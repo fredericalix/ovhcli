@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/ovh/go-ovh/ovh"
@@ -67,8 +68,8 @@ type Sshkey struct {
 	Regions     []string `json:"regions"`
 }
 
-// Regions is a go representation of Cloud Regions
-type Regions struct {
+// Region is a go representation of Cloud Region
+type Region struct {
 	Region             string `json:"region,omitempty"`
 	Status             string `json:"status,omitempty"`
 	ContinentCode      string `json:"continentCode,omitempty"`
@@ -194,31 +195,23 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 }
 
 // CloudListRegions return a list of network regions
-func (c *Client) CloudListRegions(projectID string) ([]Regions, error) {
+func (c *Client) CloudListRegions(projectID string) ([]Region, error) {
 	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
 	var resultsreq []string
 	e := c.OVHClient.Get(path, &resultsreq)
-	regions := []Regions{}
+	regions := []Region{}
 	for _, resultreq := range resultsreq {
-		regions = append(regions, Regions{Region: resultreq})
+		regions = append(regions, Region{Region: resultreq})
 	}
 	return regions, e
 }
 
 // CloudInfoRegion return services status on a region
-func (c *Client) CloudInfoRegion(projectID, regionName string) (*Regions, error) {
-	region := &Regions{}
+func (c *Client) CloudInfoRegion(projectID, regionName string) (*Region, error) {
+	region := &Region{}
 	path := fmt.Sprintf("/cloud/project/%s/region/%s", projectID, regionName)
 	err := c.OVHClient.Get(path, region)
 	return region, err
-}
-
-// CloudGetImages returns a list of images for a given project in a given region
-func (c *Client) CloudGetImages(projectID, region string) ([]Image, error) {
-	path := fmt.Sprintf("/cloud/project/%s/image?osType=linux&region=%s", projectID, region)
-	images := []Image{}
-	err := c.OVHClient.Get(path, &images)
-	return images, err
 }
 
 // CloudGetInstance finds a VM instance given a name or an ID
@@ -332,11 +325,11 @@ func (c *Client) CloudProjectUserCreate(projectID, description string) (User, er
 	return user, c.OVHClient.Post(path, data, &user)
 }
 
-// CloudProjectRegionList return the list of region by given a project id
+// CloudProjectRegionList return the region by given a project id
 func (c *Client) CloudProjectRegionList(projectID string) ([]string, error) {
 	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
-	regions := []string{}
-	return regions, c.OVHClient.Get(path, &regions)
+	var r []string
+	return r, c.OVHClient.Get(path, &r)
 }
 
 // CloudProjectSSHKeyList return the list of ssh keys by given a project id
@@ -372,4 +365,63 @@ func (c *Client) CloudProjectSSHKeyCreate(projectID, publicKey, name string) (Ss
 	}
 	sshkey := Sshkey{}
 	return sshkey, c.OVHClient.Post(path, data, &sshkey)
+}
+
+//CloudProjectImagesList returns the list of images by given a project id
+func (c *Client) CloudProjectImagesList(projectID, region string) ([]Image, error) {
+	var path string
+	if region == "" {
+		path = fmt.Sprintf("/cloud/project/%s/image", projectID)
+
+	} else {
+		path = fmt.Sprintf("/cloud/project/%s/image?region=%s", projectID, region)
+	}
+	images := []Image{}
+	return images, c.OVHClient.Get(path, &images)
+}
+
+//CloudProjectImagesSearch returns the list of images matching terms
+func (c *Client) CloudProjectImagesSearch(projectID string, region string, terms ...string) ([]Image, error) {
+	images, err := c.CloudProjectImagesList(projectID, region)
+	if err != nil {
+		return nil, err
+	}
+	snapshots, err := c.CloudProjectSnapshotsList(projectID, region)
+	if err != nil {
+		return nil, err
+	}
+
+	images = append(images, snapshots...)
+
+	res := []Image{}
+	for i, img := range images {
+		for _, t := range terms {
+			if strings.Contains(img.ID, t) {
+				res = append(res, images[i])
+				continue
+			}
+			if strings.Contains(img.Name, t) {
+				res = append(res, images[i])
+				continue
+			}
+			if strings.Contains(img.OS, t) {
+				res = append(res, images[i])
+				continue
+			}
+		}
+	}
+	return res, nil
+}
+
+//CloudProjectSnapshotsList returns the list of snapshots by given a project id
+func (c *Client) CloudProjectSnapshotsList(projectID, region string) ([]Image, error) {
+	var path string
+	if region == "" {
+		path = fmt.Sprintf("/cloud/project/%s/snapshot", projectID)
+
+	} else {
+		path = fmt.Sprintf("/cloud/project/%s/snapshot?region=%s", projectID, region)
+	}
+	images := []Image{}
+	return images, c.OVHClient.Get(path, &images)
 }

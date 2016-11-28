@@ -8,6 +8,7 @@ func init() {
 	Cmd.AddCommand(cmdProjectImage)
 	Cmd.AddCommand(cmdProjectUser)
 	Cmd.AddCommand(cmdProjectRegion)
+	Cmd.AddCommand(cmdProjectInstance)
 
 	Cmd.PersistentFlags().StringVarP(&projectID, "id", "", "", "Your ID Project")
 	Cmd.PersistentFlags().StringVarP(&projectName, "name", "", "", "Your Project Name")

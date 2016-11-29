@@ -79,11 +79,11 @@ var (
 				common.Check(err)
 
 				fmt.Println("export OS_AUTH_URL=https://auth.cloud.ovh.net/v2")
-				fmt.Printf("# Available regions : %s\n", strings.Join(regions, ", "))
 				fmt.Printf("export OS_REGION_NAME=%s\n", regions[0])
 				fmt.Printf("export OS_TENANT_ID=%s\n", projectID)
 				fmt.Printf("export OS_USERNAME=%s\n", u.Username)
 				fmt.Printf("export OS_PASSWORD=%s\n", u.Password)
+				fmt.Printf("# Available regions : %s\n", strings.Join(regions, ", "))
 				return
 			}
 

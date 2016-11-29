@@ -425,3 +425,16 @@ func (c *Client) CloudProjectSnapshotsList(projectID, region string) ([]Image, e
 	images := []Image{}
 	return images, c.OVHClient.Get(path, &images)
 }
+
+//CloudProjectFlavorsList returns the list of flavors by given a project id
+func (c *Client) CloudProjectFlavorsList(projectID, region string) ([]Flavor, error) {
+	var path string
+	if region == "" {
+		path = fmt.Sprintf("/cloud/project/%s/flavor", projectID)
+
+	} else {
+		path = fmt.Sprintf("/cloud/project/%s/flavor?region=%s", projectID, region)
+	}
+	f := []Flavor{}
+	return f, c.OVHClient.Get(path, &f)
+}

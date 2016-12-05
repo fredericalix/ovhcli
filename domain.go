@@ -44,7 +44,7 @@ type Domain struct {
 	//fullType: "domain.DomainNsTypeEnum"
 }
 
-// DomainList ...
+// DomainList list all your domain
 func (c *Client) DomainList() ([]Domain, error) {
 	var names []string
 	e := c.OVHClient.Get("/domain", &names)
@@ -55,7 +55,7 @@ func (c *Client) DomainList() ([]Domain, error) {
 	return domains, e
 }
 
-// DomainInfo ...
+// DomainInfo retrieve all infos of one of your domains
 func (c *Client) DomainInfo(domainName string) (*Domain, error) {
 	domain := &Domain{}
 	err := c.OVHClient.Get(fmt.Sprintf("/domain/%s", domainName), domain)

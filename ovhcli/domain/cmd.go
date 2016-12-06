@@ -4,6 +4,7 @@ import "github.com/spf13/cobra"
 
 func init() {
 	Cmd.AddCommand(cmdDomainList)
+	Cmd.AddCommand(cmdDomainInfo)
 }
 
 // Cmd domain

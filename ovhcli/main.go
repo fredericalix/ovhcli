@@ -10,6 +10,7 @@ import (
 	"github.com/admdwrf/ovhcli/ovhcli/common"
 	"github.com/admdwrf/ovhcli/ovhcli/connect"
 	"github.com/admdwrf/ovhcli/ovhcli/domain"
+	"github.com/admdwrf/ovhcli/ovhcli/order"
 	"github.com/admdwrf/ovhcli/ovhcli/version"
 	"github.com/admdwrf/ovhcli/ovhcli/vrack"
 
@@ -42,6 +43,8 @@ func addCommands() {
 	rootCmd.AddCommand(vrack.Cmd)
 
 	rootCmd.AddCommand(connect.Cmd)
+
+	rootCmd.AddCommand(order.Cmd)
 
 	rootCmd.AddCommand(autocompleteCmd)
 }

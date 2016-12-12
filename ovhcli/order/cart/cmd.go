@@ -14,6 +14,9 @@ func init() {
 	Cmd.AddCommand(cmdCartSummary)
 
 	Cmd.AddCommand(CmdCartListItems)
+	Cmd.AddCommand(CmdCartInfoItem)
+	Cmd.AddCommand(CmdCartUpdateItem)
+	Cmd.AddCommand(CmdCartDeleteItem)
 
 	Cmd.AddCommand(domain.Cmd)
 

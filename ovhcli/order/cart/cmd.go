@@ -1,6 +1,9 @@
 package cart
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/admdwrf/ovhcli/ovhcli/order/cart/domain"
+	"github.com/spf13/cobra"
+)
 
 func init() {
 	Cmd.AddCommand(cmdCartList)
@@ -8,6 +11,12 @@ func init() {
 	Cmd.AddCommand(cmdCartAssign)
 	Cmd.AddCommand(cmdCartCreate)
 	Cmd.AddCommand(cmdCartDelete)
+	Cmd.AddCommand(cmdCartSummary)
+
+	Cmd.AddCommand(CmdCartListItems)
+
+	Cmd.AddCommand(domain.Cmd)
+
 }
 
 // Cmd domain

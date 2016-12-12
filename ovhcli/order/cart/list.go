@@ -21,7 +21,7 @@ var cmdCartList = &cobra.Command{
 		client, err := ovh.NewClient()
 		common.Check(err)
 
-		carts, err := client.CartList()
+		carts, err := client.OrderCartList()
 		common.Check(err)
 
 		if withDetails {
@@ -32,12 +32,12 @@ var cmdCartList = &cobra.Command{
 	},
 }
 
-func getDetailledCartsList(client *ovh.Client, carts []ovh.Cart) []ovh.Cart {
+func getDetailledCartsList(client *ovh.Client, carts []ovh.OrderCart) []ovh.OrderCart {
 
-	cartsChan, errChan := make(chan ovh.Cart), make(chan error)
+	cartsChan, errChan := make(chan ovh.OrderCart), make(chan error)
 	for _, cart := range carts {
-		go func(cart ovh.Cart) {
-			c, err := client.CartInfo(cart.CartID)
+		go func(cart ovh.OrderCart) {
+			c, err := client.OrderCartInfo(cart.CartID)
 			if err != nil {
 				errChan <- err
 				return
@@ -46,7 +46,7 @@ func getDetailledCartsList(client *ovh.Client, carts []ovh.Cart) []ovh.Cart {
 		}(cart)
 	}
 
-	cartsComplete := []ovh.Cart{}
+	cartsComplete := []ovh.OrderCart{}
 
 	for i := 0; i < len(carts); i++ {
 		select {

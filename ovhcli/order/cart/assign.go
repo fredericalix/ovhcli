@@ -19,7 +19,7 @@ var cmdCartAssign = &cobra.Command{
 		client, err := ovh.NewClient()
 		common.Check(err)
 
-		err = client.AssignCart(cartID)
+		err = client.OrderAssignCart(cartID)
 		common.Check(err)
 	},
 }

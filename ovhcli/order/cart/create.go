@@ -13,9 +13,9 @@ var expire string
 var ovhSubsidiary string
 
 func init() {
-	cmdCartCreate.PersistentFlags().StringVarP(&description, "description", "", "", "Description of your cart")
-	cmdCartCreate.PersistentFlags().StringVarP(&expire, "expire", "", "", "Time of expiration of the cart (format : 2006-01-02T03:04:05-07:00)")
-	cmdCartCreate.PersistentFlags().StringVarP(&ovhSubsidiary, "ovhSubsidiary", "", "", "OVH Subsidiary where you want to order")
+	cmdCartCreate.PersistentFlags().StringVarP(&description, "description", "d", "", "Description of your cart")
+	cmdCartCreate.PersistentFlags().StringVarP(&expire, "expire", "e", "", "Time of expiration of the cart (format : 2006-01-02T03:04:05-07:00)")
+	cmdCartCreate.PersistentFlags().StringVarP(&ovhSubsidiary, "ovhSubsidiary", "o", "FR", "OVH Subsidiary where you want to order")
 
 }
 
@@ -33,7 +33,7 @@ var cmdCartCreate = &cobra.Command{
 			common.Check(err)
 		}
 
-		c, err := client.CreateCart(ovh.CartCreateReq{Description: description, Expire: expireTime, OVHSubsidiary: ovhSubsidiary})
+		c, err := client.OrderCreateCart(ovh.OrderCartCreateReq{Description: description, Expire: expireTime, OVHSubsidiary: ovhSubsidiary})
 		common.Check(err)
 		common.FormatOutputDef(c)
 	},

@@ -19,7 +19,7 @@ var cmdCartDelete = &cobra.Command{
 		client, err := ovh.NewClient()
 		common.Check(err)
 
-		err = client.DeleteCart(cartID)
+		err = client.OrderDeleteCart(cartID)
 		common.Check(err)
 	},
 }

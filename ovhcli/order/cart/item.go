@@ -36,7 +36,6 @@ var CmdCartListItems = &cobra.Command{
 	Use:   "listItems",
 	Short: "List all items of a cart: ovhcli order cart list",
 	Run: func(cmd *cobra.Command, args []string) {
-
 		client, err := ovh.NewClient()
 		common.Check(err)
 
@@ -67,7 +66,6 @@ var CmdCartInfoItem = &cobra.Command{
 		}
 		client, err := ovh.NewClient()
 		common.Check(err)
-
 		item, err := client.OrderCartItemInfo(cartID, i)
 		common.Check(err)
 

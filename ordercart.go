@@ -129,3 +129,49 @@ func (c *Client) OrderDeleteCartItem(cartID string, itemID int) (*OrderCartItem,
 	err := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s/item/%d", cartID, itemID), nil)
 	return nil, err
 }
+
+// OrderCartConfigurationsList list all configurations for an item
+func (c *Client) OrderCartConfigurationsList(cartID string, itemID int) ([]OrderCartConfigurationItem, error) {
+	var ids []int
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/configuration", cartID, itemID), &ids)
+	configs := []OrderCartConfigurationItem{}
+	for _, id := range ids {
+		configs = append(configs, OrderCartConfigurationItem{ID: id})
+	}
+	return configs, e
+}
+
+// OrderCartConfigurationInfo get a configuration for an item
+func (c *Client) OrderCartConfigurationInfo(cartID string, itemID int, configID int) (*OrderCartConfigurationItem, error) {
+	config := &OrderCartConfigurationItem{}
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/configuration/%d", cartID, itemID, configID), config)
+	return config, err
+}
+
+// OrderCartAddConfiguration add a configuration on an item
+func (c *Client) OrderCartAddConfiguration(cartID string, itemID int, label string, value string) (*OrderCartItem, error) {
+	item := &OrderCartItem{}
+
+	data := struct {
+		Label string `json:"label,omitempty"`
+		Value string `json:"value,omitempty"`
+	}{
+		label,
+		value,
+	}
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/item/%d/configuration", cartID, itemID), data, item)
+	return item, err
+}
+
+// OrderCartDeleteConfiguration remove a configuration from an item
+func (c *Client) OrderCartDeleteConfiguration(cartID string, itemID int, configID int) (*OrderCartItem, error) {
+	err := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s/item/%d/configuration/%d", cartID, itemID, configID), nil)
+	return nil, err
+}
+
+// OrderCartRequiredConfigurations get required configurations for an item
+func (c *Client) OrderCartRequiredConfigurations(cartID string, itemID int) ([]OrderCartConfigurationRequirements, error) {
+	var configs []OrderCartConfigurationRequirements
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/requiredConfiguration", cartID, itemID), &configs)
+	return configs, e
+}

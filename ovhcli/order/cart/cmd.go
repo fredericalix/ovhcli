@@ -18,6 +18,12 @@ func init() {
 	Cmd.AddCommand(CmdCartUpdateItem)
 	Cmd.AddCommand(CmdCartDeleteItem)
 
+	Cmd.AddCommand(CmdCartItemConfigurationsList)
+	Cmd.AddCommand(CmdCartItemConfigurationInfo)
+	Cmd.AddCommand(CmdCartItemConfigurationAdd)
+	Cmd.AddCommand(CmdCartItemConfigurationRemove)
+	Cmd.AddCommand(CmdCartItemRequiredConfigurations)
+
 	Cmd.AddCommand(domain.Cmd)
 
 }

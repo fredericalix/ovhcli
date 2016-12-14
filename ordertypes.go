@@ -13,7 +13,7 @@ type OrderCart struct {
 
 // Order is a go representation of Order instance
 type Order struct {
-	OrderID   string          `json:"orderId,omitempty"`
+	OrderID   int             `json:"orderId,omitempty"`
 	URL       string          `json:"url,omitempty"`
 	Details   []OrderDetail   `json:"details,omitempty"`
 	Contracts []OrderContract `json:"contracts,omitempty"`
@@ -32,9 +32,9 @@ type OrderDetail struct {
 
 // OrderContract is a go representation of OrderContract instance
 type OrderContract struct {
-	Name    string          `json:"name,omitempty"`
-	URL     []OrderDetail   `json:"url,omitempty"`
-	Content []OrderContract `json:"content,omitempty"`
+	Name    string `json:"name,omitempty"`
+	URL     string `json:"url,omitempty"`
+	Content string `json:"content,omitempty"`
 }
 
 // OrderPrices is a go representation of OrderPrices instance
@@ -54,7 +54,7 @@ type OrderPrice struct {
 //OrderCartItem is a representation of a cart item
 type OrderCartItem struct {
 	OfferID        string                  `json:"offerId,omitempty"`
-	OptionsIDs     []int                   `json:"options,omitempty"`
+	Options        []int                   `json:"options,omitempty"`
 	ParentItemID   int                     `json:"parentItemId,omitempty"`
 	ProductID      string                  `json:"productId,omitempty"`
 	Duration       string                  `json:"duration,omitempty"`
@@ -99,8 +99,8 @@ type OrderCartProductInformation struct {
 
 //OrderCartConfigurationRequirements is a representation of a configuration requirements
 type OrderCartConfigurationRequirements struct {
-	Required bool     `json:"required,omitempty"`
-	Fields   []string `json:"fields,omitempty"`
+	Required bool     `json:"required"`
+	Fields   []string `json:"fields"`
 	Label    string   `json:"label,omitempty"`
 	Type     string   `json:"type,omitempty"`
 }

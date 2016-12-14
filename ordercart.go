@@ -86,7 +86,7 @@ func (c *Client) OrderPostCheckoutCart(cartID string, waiveRetractationPeriod bo
 		waiveRetractationPeriod,
 	}
 
-	e := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/summary", cartID), data, order)
+	e := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/checkout", cartID), data, order)
 	return order, e
 }
 

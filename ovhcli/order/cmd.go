@@ -7,6 +7,7 @@ import (
 
 func init() {
 	Cmd.AddCommand(cart.Cmd)
+	Cmd.AddCommand(CmdDomain)
 }
 
 // Cmd domain

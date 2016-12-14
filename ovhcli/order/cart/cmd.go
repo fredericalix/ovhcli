@@ -11,7 +11,10 @@ func init() {
 	Cmd.AddCommand(cmdCartAssign)
 	Cmd.AddCommand(cmdCartCreate)
 	Cmd.AddCommand(cmdCartDelete)
+
 	Cmd.AddCommand(cmdCartSummary)
+	Cmd.AddCommand(cmdCartCheckoutGet)
+	Cmd.AddCommand(cmdCartCheckoutPost)
 
 	Cmd.AddCommand(CmdCartListItems)
 	Cmd.AddCommand(CmdCartInfoItem)

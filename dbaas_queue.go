@@ -49,6 +49,12 @@ type DBaasQueueUser struct {
 	Roles []string `json:"roles" description:"List of roles this user belongs to"` // not stored like that in DB
 }
 
+// DBaasQueueMetricsAccount represents metrics account
+type DBaasQueueMetricsAccount struct {
+	Host  string `json:"host" description:"OpenTSDB host url"`
+	Token string `json:"token" description:"Token for OpenTSDB metrics access"`
+}
+
 // DBaasQueueAppList list all your app
 func (c *Client) DBaasQueueAppList(withDetails bool) ([]DBaasQueueApp, error) {
 	var ids []string
@@ -345,9 +351,16 @@ func (c *Client) DBaasQueueUserList(serviceName string, withDetails bool) ([]DBa
 	return usersComplete, nil
 }
 
-// DBaasQueueAppInfo retrieve all infos of one of your apps
+// DBaasQueueUserInfo retrieve all infos of one user of your apps
 func (c *Client) DBaasQueueUserInfo(serviceName, userID string) (*DBaasQueueUser, error) {
 	user := &DBaasQueueUser{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/user/%s", serviceName, userID), user)
+	return user, err
+}
+
+// DBaasQueueMetricsAccount retrieve all infos of one of your apps
+func (c *Client) DBaasQueueMetricsAccount(serviceName string) (*DBaasQueueMetricsAccount, error) {
+	user := &DBaasQueueMetricsAccount{}
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/metrics/account", serviceName), user)
 	return user, err
 }

@@ -2,6 +2,7 @@ package queue
 
 import (
 	"github.com/admdwrf/ovhcli/ovhcli/dbaas/queue/key"
+	"github.com/admdwrf/ovhcli/ovhcli/dbaas/queue/metrics"
 	"github.com/admdwrf/ovhcli/ovhcli/dbaas/queue/region"
 	"github.com/admdwrf/ovhcli/ovhcli/dbaas/queue/role"
 	"github.com/admdwrf/ovhcli/ovhcli/dbaas/queue/service"
@@ -13,6 +14,7 @@ import (
 
 func init() {
 	Cmd.AddCommand(key.Cmd)
+	Cmd.AddCommand(metrics.Cmd)
 	Cmd.AddCommand(region.Cmd)
 	Cmd.AddCommand(role.Cmd)
 	Cmd.AddCommand(service.Cmd)

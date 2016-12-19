@@ -10,9 +10,9 @@ import (
 func init() {
 }
 
-var cmdMetricsAccount = &cobra.Command{
+var cmdAccount = &cobra.Command{
 	Use:   "account",
-	Short: "Get metrics account: ovhcli dbaas queue metrics account [--name=AppName] [--id=appID]",
+	Short: "Get metrics account: ovhcli dbaas queue metrics account (--name=AppName | <--id=appID>)",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

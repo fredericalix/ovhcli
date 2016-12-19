@@ -10,12 +10,12 @@ import (
 var withDetails bool
 
 func init() {
-	cmdKeyList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display details")
+	cmdList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display details")
 }
 
-var cmdKeyList = &cobra.Command{
+var cmdList = &cobra.Command{
 	Use:   "list",
-	Short: "List all keys on a service: ovhcli dbaas queue key [--name=AppName] [--id=appID]",
+	Short: "List all keys on a service: ovhcli dbaas queue key (--name=AppName | <--id=appID>)",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

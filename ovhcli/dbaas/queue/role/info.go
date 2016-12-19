@@ -1,4 +1,4 @@
-package service
+package role
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -7,9 +7,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var roleID string
+
+func init() {
+	cmdInfo.PersistentFlags().StringVarP(&roleID, "role-id", "", "", "Role ID")
+}
+
 var cmdInfo = &cobra.Command{
 	Use:   "info",
-	Short: "Get Application Info: ovhcli dbaas queue service info (--name=AppName | <--id=appID>)",
+	Short: "Get Role Info: ovhcli dbaas queue role info (--name=AppName | <--id=appID>) --role-id=roleid",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()
@@ -18,12 +24,12 @@ var cmdInfo = &cobra.Command{
 		if name != "" {
 			app, errInfo := client.DBaasQueueAppInfoByName(name)
 			common.Check(errInfo)
-			common.FormatOutputDef(app)
-		} else {
-			app, errInfo := client.DBaasQueueAppInfo(id)
-			common.Check(errInfo)
-			common.FormatOutputDef(app)
+			id = app.ID
 		}
 
+		role, err := client.DBaasQueueRoleInfo(id, roleID)
+		common.Check(err)
+
+		common.FormatOutputDef(role)
 	},
 }

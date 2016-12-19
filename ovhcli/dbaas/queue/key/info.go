@@ -1,4 +1,4 @@
-package service
+package key
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -7,9 +7,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var keyID string
+
+func init() {
+	cmdInfo.PersistentFlags().StringVarP(&keyID, "key-id", "", "", "Key ID")
+}
+
 var cmdInfo = &cobra.Command{
 	Use:   "info",
-	Short: "Get Application Info: ovhcli dbaas queue service info (--name=AppName | <--id=appID>)",
+	Short: "Get Key Info: ovhcli dbaas queue key info (--name=AppName | <--id=appID>) --key-id=keyid",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()
@@ -18,12 +24,12 @@ var cmdInfo = &cobra.Command{
 		if name != "" {
 			app, errInfo := client.DBaasQueueAppInfoByName(name)
 			common.Check(errInfo)
-			common.FormatOutputDef(app)
-		} else {
-			app, errInfo := client.DBaasQueueAppInfo(id)
-			common.Check(errInfo)
-			common.FormatOutputDef(app)
+			id = app.ID
 		}
 
+		key, err := client.DBaasQueueKeyInfo(id, keyID)
+		common.Check(err)
+
+		common.FormatOutputDef(key)
 	},
 }

@@ -6,7 +6,8 @@ var id string
 var name string
 
 func init() {
-	Cmd.AddCommand(cmdKeyList)
+	Cmd.AddCommand(cmdInfo)
+	Cmd.AddCommand(cmdList)
 
 	Cmd.PersistentFlags().StringVarP(&id, "id", "", "", "Your Application ID")
 	Cmd.PersistentFlags().StringVarP(&name, "name", "", "", "Your Application Name")

@@ -1,4 +1,4 @@
-package user
+package region
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -7,15 +7,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var withDetails bool
+var regionID string
 
 func init() {
-	cmdList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display details")
+	cmdInfo.PersistentFlags().StringVarP(&regionID, "region-id", "", "", "Region ID")
 }
 
-var cmdList = &cobra.Command{
-	Use:   "list",
-	Short: "List all users on a service: ovhcli dbaas queue user (--name=AppName | <--id=appID>)",
+var cmdInfo = &cobra.Command{
+	Use:   "info",
+	Short: "Get Application Info: ovhcli dbaas queue region info (--name=AppName | <--id=appID>) --region-id=regionid",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()
@@ -27,8 +27,9 @@ var cmdList = &cobra.Command{
 			id = app.ID
 		}
 
-		apps, err := client.DBaasQueueUserList(id, withDetails)
+		region, err := client.DBaasQueueRegionInfo(id, regionID)
 		common.Check(err)
-		common.FormatOutputDef(apps)
+
+		common.FormatOutputDef(region)
 	},
 }

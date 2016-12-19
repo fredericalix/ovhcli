@@ -10,12 +10,12 @@ import (
 var withDetails bool
 
 func init() {
-	cmdRoleList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display details")
+	cmdList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display details")
 }
 
-var cmdRoleList = &cobra.Command{
+var cmdList = &cobra.Command{
 	Use:   "list",
-	Short: "List all roles on a service: ovhcli dbaas queue role list [--name=AppName] [--id=appID]",
+	Short: "List all roles on a service: ovhcli dbaas queue role list (--name=AppName | <--id=appID>)",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

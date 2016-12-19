@@ -55,6 +55,27 @@ type DBaasQueueMetricsAccount struct {
 	Token string `json:"token" description:"Token for OpenTSDB metrics access"`
 }
 
+// DBaasQueueServiceInfo contains info about a service
+type DBaasQueueServiceInfo struct {
+	CanDeleteAtExpiration bool        `json:"canDeleteAtExpiration"`
+	ContactAdmin          string      `json:"contactAdmin"`
+	ContactBilling        string      `json:"contactBilling"`
+	ContactTech           string      `json:"contactTech"`
+	Creation              string      `json:"creation"`
+	Domain                string      `json:"domain"`
+	EngagedUpTo           interface{} `json:"engagedUpTo"`
+	Expiration            string      `json:"expiration"`
+	PossibleRenewPeriod   []int       `json:"possibleRenewPeriod"`
+	Renew                 struct {
+		Automatic          bool `json:"automatic"`
+		DeleteAtExpiration bool `json:"deleteAtExpiration"`
+		Forced             bool `json:"forced"`
+		Period             int  `json:"period"`
+	} `json:"renew"`
+	RenewalType string `json:"renewalType"`
+	Status      string `json:"status"`
+}
+
 // DBaasQueueAppList list all your app
 func (c *Client) DBaasQueueAppList(withDetails bool) ([]DBaasQueueApp, error) {
 	var ids []string
@@ -103,9 +124,9 @@ func (c *Client) DBaasQueueAppInfo(serviceName string) (*DBaasQueueApp, error) {
 	return app, err
 }
 
-// DBaasQueueAppStatus retrieve all infos of one of your apps
-func (c *Client) DBaasQueueAppStatus(serviceName string) (*DBaasQueueApp, error) {
-	app := &DBaasQueueApp{}
+// DBaasQueueAppServiceInfo retrieve all infos of one of your apps
+func (c *Client) DBaasQueueAppServiceInfo(serviceName string) (*DBaasQueueServiceInfo, error) {
+	app := &DBaasQueueServiceInfo{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/serviceInfos", serviceName), app)
 	return app, err
 }

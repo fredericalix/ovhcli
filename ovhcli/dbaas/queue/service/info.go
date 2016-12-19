@@ -11,9 +11,9 @@ func init() {
 
 }
 
-var cmdServiceStatus = &cobra.Command{
-	Use:   "status",
-	Short: "Get Service Status: ovhcli dbaas queue service status [--name=AppName] [--id=appID]]",
+var cmdServiceServiceinfo = &cobra.Command{
+	Use:   "serviceinfo",
+	Short: "Get Service Serviceinfo: ovhcli dbaas queue service serviceinfo [--name=AppName] [--id=appID]]",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()
@@ -25,7 +25,7 @@ var cmdServiceStatus = &cobra.Command{
 			id = app.ID
 		}
 
-		apps, err := client.DBaasQueueAppStatus(id)
+		apps, err := client.DBaasQueueAppServiceInfo(id)
 		common.Check(err)
 
 		common.FormatOutputDef(apps)

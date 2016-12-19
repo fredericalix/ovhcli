@@ -103,6 +103,13 @@ func (c *Client) DBaasQueueAppInfo(serviceName string) (*DBaasQueueApp, error) {
 	return app, err
 }
 
+// DBaasQueueAppStatus retrieve all infos of one of your apps
+func (c *Client) DBaasQueueAppStatus(serviceName string) (*DBaasQueueApp, error) {
+	app := &DBaasQueueApp{}
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/serviceInfos", serviceName), app)
+	return app, err
+}
+
 // DBaasQueueAppInfoByName retrieve all infos of one of your apps
 func (c *Client) DBaasQueueAppInfoByName(name string) (*DBaasQueueApp, error) {
 	apps, err := c.DBaasQueueAppList(true)

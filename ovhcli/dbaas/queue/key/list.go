@@ -15,7 +15,7 @@ func init() {
 
 var cmdKeyList = &cobra.Command{
 	Use:   "list",
-	Short: "List all keys on a service: ovhcli dbaas queue key",
+	Short: "List all keys on a service: ovhcli dbaas queue key [--name=AppName] [--id=appID]",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

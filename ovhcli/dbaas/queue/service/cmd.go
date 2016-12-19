@@ -2,8 +2,15 @@ package service
 
 import "github.com/spf13/cobra"
 
+var id string
+var name string
+
 func init() {
+	Cmd.AddCommand(cmdServiceStatus)
 	Cmd.AddCommand(cmdServiceList)
+
+	Cmd.PersistentFlags().StringVarP(&id, "id", "", "", "Your Application ID")
+	Cmd.PersistentFlags().StringVarP(&name, "name", "", "", "Your Application Name")
 }
 
 // Cmd ...

@@ -15,7 +15,7 @@ func init() {
 
 var cmdRoleList = &cobra.Command{
 	Use:   "list",
-	Short: "List all roles on a service: ovhcli dbaas queue role list",
+	Short: "List all roles on a service: ovhcli dbaas queue role list [--name=AppName] [--id=appID]",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

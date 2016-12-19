@@ -15,7 +15,7 @@ func init() {
 
 var cmdTopicList = &cobra.Command{
 	Use:   "list",
-	Short: "List all topics on a service: ovhcli dbaas queue topic list",
+	Short: "List all topics on a service: ovhcli dbaas queue topic list [--name=AppName] [--id=appID]",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

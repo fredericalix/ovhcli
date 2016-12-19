@@ -1,4 +1,4 @@
-package domain
+package service
 
 import (
 	ovh "github.com/admdwrf/ovhcli"
@@ -10,20 +10,20 @@ import (
 var withDetails bool
 
 func init() {
-	cmdDomainList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display domain details")
+	cmdServiceList.PersistentFlags().BoolVarP(&withDetails, "withDetails", "", false, "Display details")
 }
 
-var cmdDomainList = &cobra.Command{
+var cmdServiceList = &cobra.Command{
 	Use:   "list",
-	Short: "List all domains: ovhcli domain list",
+	Short: "List all services: ovhcli dbaas queue service list",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()
 		common.Check(err)
 
-		domains, err := client.DomainList(withDetails)
+		apps, err := client.DBaasQueueAppList(withDetails)
 		common.Check(err)
 
-		common.FormatOutputDef(domains)
+		common.FormatOutputDef(apps)
 	},
 }

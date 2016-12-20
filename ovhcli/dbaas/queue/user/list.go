@@ -21,11 +21,13 @@ var cmdList = &cobra.Command{
 		client, err := ovh.NewClient()
 		common.Check(err)
 
-		if name != "" {
-			app, errInfo := client.DBaasQueueAppInfoByName(name)
-			common.Check(errInfo)
-			id = app.ID
+		if name == "" {
+			common.WrongUsage(cmd)
 		}
+
+		app, errInfo := client.DBaasQueueAppInfoByName(name)
+		common.Check(errInfo)
+		id = app.ID
 
 		apps, err := client.DBaasQueueUserList(id, withDetails)
 		common.Check(err)

@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 func init() {
 	cmdProjectList.Flags().BoolVarP(&withDetails, "withDetails", "", false, "Display project details")
 }

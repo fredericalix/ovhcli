@@ -44,9 +44,10 @@ type DBaasQueueTopic struct {
 
 // DBaasQueueUser represents a Qaas user
 type DBaasQueueUser struct {
-	ID    string   `json:"id" description:"User ID" schema:"string"`
-	Name  string   `json:"name" description:"User name"`
-	Roles []string `json:"roles" description:"List of roles this user belongs to"` // not stored like that in DB
+	ID       string   `json:"id" description:"User ID" schema:"string"`
+	Name     string   `json:"name" description:"User name"`
+	Roles    []string `json:"roles" description:"List of roles this user belongs to"` // not stored like that in DB
+	Password string   `json:"password,omitempty" description:"User Password" schema:"string"`
 }
 
 // DBaasQueueMetricsAccount represents metrics account
@@ -383,6 +384,13 @@ func (c *Client) DBaasQueueUserList(serviceName string, withDetails bool) ([]DBa
 func (c *Client) DBaasQueueUserInfo(serviceName, userID string) (*DBaasQueueUser, error) {
 	user := &DBaasQueueUser{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/user/%s", serviceName, userID), user)
+	return user, err
+}
+
+// DBaasQueueUserChangePassword reset user password
+func (c *Client) DBaasQueueUserChangePassword(serviceName, userID string) (*DBaasQueueUser, error) {
+	user := &DBaasQueueUser{}
+	err := c.OVHClient.Post(fmt.Sprintf("/dbaas/queue/%s/user/%s/changePassword", serviceName, userID), nil, user)
 	return user, err
 }
 

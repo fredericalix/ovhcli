@@ -7,9 +7,9 @@ import (
 	"github.com/admdwrf/ovhcli/ovhcli/common"
 )
 
-var cmdInfo = &cobra.Command{
-	Use:   "info",
-	Short: "Get User Info: ovhcli dbaas queue user info (--name=AppName | <--id=appID>) --user=username",
+var cmdChangePassword = &cobra.Command{
+	Use:   "password",
+	Short: "Change password for the given user (--name=AppName) (--user=UserName)",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()
@@ -29,15 +29,16 @@ var cmdInfo = &cobra.Command{
 
 		users, errUsers := client.DBaasQueueUserList(id, true)
 		common.Check(errUsers)
-		for _, u := range users {
-			if u.Name == userName {
-				userID = u.ID
+		for _, user := range users {
+			if user.Name == userName {
+				userID = user.ID
+				break
 			}
 		}
 
 		checkUser()
 
-		user, err := client.DBaasQueueUserInfo(id, userID)
+		user, err := client.DBaasQueueUserChangePassword(id, userID)
 		common.Check(err)
 
 		common.FormatOutputDef(user)

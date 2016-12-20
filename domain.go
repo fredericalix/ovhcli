@@ -45,14 +45,45 @@ type Domain struct {
 }
 
 // DomainList list all your domain
-func (c *Client) DomainList() ([]Domain, error) {
+func (c *Client) DomainList(withDetails bool) ([]Domain, error) {
 	var names []string
-	e := c.OVHClient.Get("/domain", &names)
+	if err := c.OVHClient.Get("/domain", &names); err != nil {
+		return nil, err
+	}
+
 	domains := []Domain{}
 	for _, name := range names {
 		domains = append(domains, Domain{Domain: name})
 	}
-	return domains, e
+
+	if !withDetails {
+		return domains, nil
+	}
+
+	domainsChan, errChan := make(chan Domain), make(chan error)
+	for _, domain := range domains {
+		go func(domain Domain) {
+			d, err := c.DomainInfo(domain.Domain)
+			if err != nil {
+				errChan <- err
+				return
+			}
+			domainsChan <- *d
+		}(domain)
+	}
+
+	domainsComplete := []Domain{}
+
+	for i := 0; i < len(domains); i++ {
+		select {
+		case domains := <-domainsChan:
+			domainsComplete = append(domainsComplete, domains)
+		case err := <-errChan:
+			return nil, err
+		}
+	}
+
+	return domainsComplete, nil
 }
 
 // DomainInfo retrieve all infos of one of your domains

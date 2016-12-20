@@ -16,13 +16,11 @@ var cmdChangePassword = &cobra.Command{
 		common.Check(err)
 
 		if name == "" {
-			cmd.Help()
-			return
+			common.WrongUsage(cmd)
 		}
 
 		if userName == "" {
-			cmd.Help()
-			return
+			common.WrongUsage(cmd)
 		}
 
 		app, errInfo := client.DBaasQueueAppInfoByName(name)
@@ -44,6 +42,5 @@ var cmdChangePassword = &cobra.Command{
 		common.Check(err)
 
 		common.FormatOutputDef(user)
-
 	},
 }

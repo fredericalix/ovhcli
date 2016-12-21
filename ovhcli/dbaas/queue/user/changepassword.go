@@ -8,7 +8,7 @@ import (
 )
 
 var cmdChangePassword = &cobra.Command{
-	Use:   "password",
+	Use:   "changepassword",
 	Short: "Change password for the given user (--name=AppName) (--user=UserName)",
 	Run: func(cmd *cobra.Command, args []string) {
 

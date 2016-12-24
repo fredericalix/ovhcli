@@ -62,8 +62,8 @@ func (c *Client) OrderGetProductDomainOptions(cartID string, domain string) ([]O
 	return options, err
 }
 
-// OrderPostProductDomainOption post an option on a domain item
-func (c *Client) OrderPostProductDomainOption(cartID string, orderPostDomainOptionReq OrderPostDomainOptionReq) (*OrderCartItem, error) {
+// OrderAddProductDomainOption post an option on a domain item
+func (c *Client) OrderAddProductDomainOption(cartID string, orderPostDomainOptionReq OrderPostDomainOptionReq) (*OrderCartItem, error) {
 	if cartID == "" {
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
@@ -82,8 +82,8 @@ func (c *Client) OrderGetProductDomainTransfer(cartID string, domain string) ([]
 	return products, err
 }
 
-// OrderPostProductDomainTransfer post a new domain transfer in your cart
-func (c *Client) OrderPostProductDomainTransfer(cartID string, orderPostDomainReq OrderPostDomainReq) (*OrderCartItem, error) {
+// OrderAddProductDomainTransfer post a new domain transfer in your cart
+func (c *Client) OrderAddProductDomainTransfer(cartID string, orderPostDomainReq OrderPostDomainReq) (*OrderCartItem, error) {
 	if cartID == "" {
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
@@ -103,8 +103,8 @@ func (c *Client) OrderGetProductDomainTransferOptions(cartID string, domain stri
 	return options, err
 }
 
-// OrderPostProductDomainTransferOption post an option on a domain transfer item
-func (c *Client) OrderPostProductDomainTransferOption(cartID string, orderPostDomainReq OrderPostDomainReq) (*OrderCartItem, error) {
+// OrderAddProductDomainTransferOption post an option on a domain transfer item
+func (c *Client) OrderAddProductDomainTransferOption(cartID string, orderPostDomainReq OrderPostDomainReq) (*OrderCartItem, error) {
 	if cartID == "" {
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}

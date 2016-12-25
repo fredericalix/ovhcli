@@ -74,6 +74,9 @@ type OrderCartPrice struct {
 //OrderCartDomainSettings is a representation of domain name order properties
 type OrderCartDomainSettings struct {
 	Domain string `json:"domain,omitempty"`
+	Phase string `json:"phase,omitempty"`
+	Offer string `json:"offer,omitempty"`
+	Quantity int `json:"quantity,omitempty"`
 }
 
 //OrderCartConfigurationItem is a representation of a configuration item for personalizing product

@@ -7,71 +7,71 @@ import (
 // TelephonyEasyHunting struct
 type TelephonyEasyHunting struct {
 	//Max wait time when caller is in queue (in seconds)
-	MaxWaitTime float64 `json:"maxWaitTime"`
+	MaxWaitTime *float64 `json:"maxWaitTime,omitempty"`
 
 	// FeatureType
-	FeatureType string `json:"featureType"`
+	FeatureType *string `json:"featureType,omitempty"`
 
 	// Strategy : The calls dispatching strategy
-	Strategy string `json:"strategy"`
+	Strategy *string `json:"strategy,omitempty"`
 
 	// QueueSize Max number of callers in queue
-	QueueSize float64 `json:"queueSize"`
+	QueueSize *float64 `json:"queueSize,omitempty"`
 
 	// ToneOnHold: Tone played when caller is put on hold
-	ToneOnHold float64 `json:"toneOnHold"`
+	ToneOnHold *float64 `json:"toneOnHold,omitempty"`
 
 	// ServiceName containers service Name
-	ServiceName string `json:"serviceName"`
+	ServiceName string `json:"serviceName,omitempty"`
 
 	// ShowCallerNumber: The presented number when bridging calls
-	ShowCallerNumber string `json:"showCallerNumber"`
+	ShowCallerNumber *string `json:"showCallerNumber,omitempty"`
 
 	// Description ...
-	Description string `json:"description"`
+	Description *string `json:"description,omitempty"`
 
 	// AnonymousRejection: Reject (hangup) anonymous calls
-	AnonymousRejection bool `json:"anonymousRejection"`
+	AnonymousRejection *bool `json:"anonymousRejection,omitempty"`
 
 	//ToneOnOpening: Tone played when call is picked up
-	ToneOnOpening float64 `json:"toneOnOpening"`
+	ToneOnOpening *float64 `json:"toneOnOpening,omitempty"`
 
 	// serviceType
-	ServiceType string `json:"serviceType"`
+	ServiceType *string `json:"serviceType,omitempty"`
 
 	// Voicemail: The voicemail used by the EasyPABX
-	Voicemail string `json:"voicemail"`
+	Voicemail *string `json:"voicemail,omitempty"`
 
 	//ToneOnClosing: Tone played just before call is hang up
-	ToneOnClosing float64 `json:"toneOnClosing"`
+	ToneOnClosing *float64 `json:"toneOnClosing,omitempty"`
 }
 
 // TelephonyOvhPabxHunting struct
 type TelephonyOvhPabxHunting struct {
 	// The templated url of your CRM, opened by the banner application of your cloudpabx
-	CrmUrlTemplate string `json:"crmUrlTemplate"`
+	CrmUrlTemplate *string `json:"crmUrlTemplate,omitempty"`
 	// The name of your callcenter offer
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 	// Enable G729 codec on your callcenter
-	G729 bool `json:"g729"`
+	G729 *bool `json:"g729,omitempty"`
 }
 
 // TelephonyOvhPabxHuntingAgent ...
 type TelephonyOvhPabxHuntingAgent struct {
 	// ID of agent
-	AgentId float64 `json:"agentId"`
+	AgentID int64 `json:"agentId,omitempty"`
 	// The wrap up time (in seconds) after the calls
-	WrapUpTime float64 `json:"wrapUpTime"`
+	WrapUpTime *float64 `json:"wrapUpTime,omitempty"`
 	// The number of the agent
-	Number string `json:"number"`
+	Number *string `json:"number,omitempty"`
 	// The waiting timeout (in seconds) before hangup an assigned called
-	Timeout float64 `json:"timeout"`
+	Timeout *float64 `json:"timeout,omitempty"`
 	// The current status of the agent
-	Status string `json:"status"`
+	Status *string `json:"status,omitempty"`
 	// The maximum of simultaneous calls that the agent will receive from the hunting
-	SimultaneousLines float64 `json:"simultaneousLines"`
+	SimultaneousLines *float64 `json:"simultaneousLines,omitempty"`
 	// The id of the current break status of the agent
-	BreakStatus float64 `json:"breakStatus"`
+	BreakStatus *float64 `json:"breakStatus,omitempty"`
 }
 
 // TelephonyEasyHuntingList list all OVH easy calls queues associated with this billing account
@@ -136,15 +136,14 @@ func (c *Client) TelephonyOvhPabxHunting(billingAccount, serviceName string) (*T
 // TelephonyOvhPabxHuntingAgentList list all OVH easy calls queues associated with this billing account
 // GET  /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent
 func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName string, withDetails bool) ([]TelephonyOvhPabxHuntingAgent, error) {
-	var names []float64
-	fmt.Printf("HOp")
+	var names []int64
 	if err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent", billingAccount, serviceName), &names); err != nil {
 		return nil, err
 	}
 
 	agents := []TelephonyOvhPabxHuntingAgent{}
 	for _, agentID := range names {
-		agents = append(agents, TelephonyOvhPabxHuntingAgent{AgentId: agentID})
+		agents = append(agents, TelephonyOvhPabxHuntingAgent{AgentID: agentID})
 	}
 
 	if !withDetails {
@@ -153,14 +152,14 @@ func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName st
 
 	agentsChan, errChan := make(chan TelephonyOvhPabxHuntingAgent), make(chan error)
 	for _, agent := range agents {
-		go func(billingAccount, serviceName string, agentID float64) {
+		go func(billingAccount, serviceName string, agentID int64) {
 			d, err := c.TelephonyOvhPabxHuntingAgentInfo(billingAccount, serviceName, agentID)
 			if err != nil {
 				errChan <- err
 				return
 			}
 			agentsChan <- *d
-		}(billingAccount, serviceName, agent.AgentId)
+		}(billingAccount, serviceName, agent.AgentID)
 	}
 
 	agentsComplete := []TelephonyOvhPabxHuntingAgent{}
@@ -179,8 +178,8 @@ func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName st
 
 // TelephonyOvhPabxHuntingAgent list all OVH Pabx Hunting Agent
 // GET /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent
-func (c *Client) TelephonyOvhPabxHuntingAgentInfo(billingAccount, serviceName string, agentID float64) (*TelephonyOvhPabxHuntingAgent, error) {
+func (c *Client) TelephonyOvhPabxHuntingAgentInfo(billingAccount, serviceName string, agentID int64) (*TelephonyOvhPabxHuntingAgent, error) {
 	telephonyOvhPabxHuntingAgent := &TelephonyOvhPabxHuntingAgent{}
-	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%f", billingAccount, serviceName, agentID), telephonyOvhPabxHuntingAgent)
+	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", billingAccount, serviceName, agentID), telephonyOvhPabxHuntingAgent)
 	return telephonyOvhPabxHuntingAgent, err
 }

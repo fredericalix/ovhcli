@@ -7,53 +7,53 @@ import (
 // TelephonyEasyHunting struct
 type TelephonyEasyHunting struct {
 	//Max wait time when caller is in queue (in seconds)
-	MaxWaitTime *float64 `json:"maxWaitTime,omitempty"`
+	MaxWaitTime float64 `json:"maxWaitTime,omitempty"`
 
 	// FeatureType
-	FeatureType *string `json:"featureType,omitempty"`
+	FeatureType string `json:"featureType,omitempty"`
 
 	// Strategy : The calls dispatching strategy
-	Strategy *string `json:"strategy,omitempty"`
+	Strategy string `json:"strategy,omitempty"`
 
 	// QueueSize Max number of callers in queue
-	QueueSize *float64 `json:"queueSize,omitempty"`
+	QueueSize float64 `json:"queueSize,omitempty"`
 
 	// ToneOnHold: Tone played when caller is put on hold
-	ToneOnHold *float64 `json:"toneOnHold,omitempty"`
+	ToneOnHold float64 `json:"toneOnHold,omitempty"`
 
 	// ServiceName containers service Name
 	ServiceName string `json:"serviceName,omitempty"`
 
 	// ShowCallerNumber: The presented number when bridging calls
-	ShowCallerNumber *string `json:"showCallerNumber,omitempty"`
+	ShowCallerNumber string `json:"showCallerNumber,omitempty"`
 
 	// Description ...
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 
 	// AnonymousRejection: Reject (hangup) anonymous calls
-	AnonymousRejection *bool `json:"anonymousRejection,omitempty"`
+	AnonymousRejection bool `json:"anonymousRejection,omitempty"`
 
 	//ToneOnOpening: Tone played when call is picked up
-	ToneOnOpening *float64 `json:"toneOnOpening,omitempty"`
+	ToneOnOpening float64 `json:"toneOnOpening,omitempty"`
 
 	// serviceType
-	ServiceType *string `json:"serviceType,omitempty"`
+	ServiceType string `json:"serviceType,omitempty"`
 
 	// Voicemail: The voicemail used by the EasyPABX
-	Voicemail *string `json:"voicemail,omitempty"`
+	Voicemail string `json:"voicemail,omitempty"`
 
 	//ToneOnClosing: Tone played just before call is hang up
-	ToneOnClosing *float64 `json:"toneOnClosing,omitempty"`
+	ToneOnClosing float64 `json:"toneOnClosing,omitempty"`
 }
 
 // TelephonyOvhPabxHunting struct
 type TelephonyOvhPabxHunting struct {
 	// The templated url of your CRM, opened by the banner application of your cloudpabx
-	CrmUrlTemplate *string `json:"crmUrlTemplate,omitempty"`
+	CrmUrlTemplate string `json:"crmUrlTemplate,omitempty"`
 	// The name of your callcenter offer
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 	// Enable G729 codec on your callcenter
-	G729 *bool `json:"g729,omitempty"`
+	G729 bool `json:"g729,omitempty"`
 }
 
 // TelephonyOvhPabxHuntingAgent ...
@@ -61,17 +61,17 @@ type TelephonyOvhPabxHuntingAgent struct {
 	// ID of agent
 	AgentID int64 `json:"agentId,omitempty"`
 	// The wrap up time (in seconds) after the calls
-	WrapUpTime *float64 `json:"wrapUpTime,omitempty"`
+	WrapUpTime float64 `json:"wrapUpTime,omitempty"`
 	// The number of the agent
-	Number *string `json:"number,omitempty"`
+	Number string `json:"number,omitempty"`
 	// The waiting timeout (in seconds) before hangup an assigned called
-	Timeout *float64 `json:"timeout,omitempty"`
+	Timeout float64 `json:"timeout,omitempty"`
 	// The current status of the agent
-	Status *string `json:"status,omitempty"`
+	Status string `json:"status,omitempty"`
 	// The maximum of simultaneous calls that the agent will receive from the hunting
-	SimultaneousLines *float64 `json:"simultaneousLines,omitempty"`
+	SimultaneousLines float64 `json:"simultaneousLines,omitempty"`
 	// The id of the current break status of the agent
-	BreakStatus *float64 `json:"breakStatus,omitempty"`
+	BreakStatus float64 `json:"breakStatus,omitempty"`
 }
 
 // TelephonyEasyHuntingList list all OVH easy calls queues associated with this billing account

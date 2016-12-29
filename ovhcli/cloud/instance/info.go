@@ -10,7 +10,6 @@ import (
 func init() {
 	cmdInstanceInfo.PersistentFlags().StringVarP(&instanceID, "instanceID", "", "", "Your Instance ID")
 	cmdInstanceInfo.PersistentFlags().StringVarP(&projectID, "projectID", "", "", "Your ID Project")
-
 }
 
 var cmdInstanceInfo = &cobra.Command{

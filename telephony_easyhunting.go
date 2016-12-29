@@ -137,7 +137,6 @@ func (c *Client) TelephonyOvhPabxHunting(billingAccount, serviceName string) (*T
 // GET  /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent
 func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName string, withDetails bool) ([]TelephonyOvhPabxHuntingAgent, error) {
 	var names []float64
-	fmt.Printf("HOp")
 	if err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent", billingAccount, serviceName), &names); err != nil {
 		return nil, err
 	}

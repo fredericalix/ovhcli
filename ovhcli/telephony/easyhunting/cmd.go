@@ -1,11 +1,16 @@
 package easyhunting
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/admdwrf/ovhcli/ovhcli/telephony/easyhunting/hunting"
+
+	"github.com/spf13/cobra"
+)
 
 func init() {
 	Cmd.AddCommand(cmdEasyHuntingList)
 	Cmd.AddCommand(cmdEasyHuntingInfo)
 
+	Cmd.AddCommand(hunting.Cmd)
 }
 
 // Cmd ...

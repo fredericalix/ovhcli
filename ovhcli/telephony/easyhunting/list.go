@@ -17,7 +17,7 @@ func init() {
 
 var cmdEasyHuntingList = &cobra.Command{
 	Use:   "list",
-	Short: "List all telephony billing account: ovhcli telephony easyhunting list",
+	Short: "List all telephony billing account: ovhcli telephony easyhunting list --billingAccount=<billingAccount>",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		client, err := ovh.NewClient()

@@ -9,16 +9,22 @@
 			"revisionTime": "2016-11-23T02:24:14Z"
 		},
 		{
+			"checksumSHA1": "w4ksomRMCZjbwnPupNvmTt5E6v8=",
+			"path": "github.com/go-ini/ini",
+			"revision": "6f66b0e091edb3c7b380f7c4f0f884274d550b67",
+			"revisionTime": "2016-12-21T12:03:40Z"
+		},
+		{
 			"checksumSHA1": "40vJyUB4ezQSn/NSadsKEOrudMc=",
 			"path": "github.com/inconshreveable/mousetrap",
 			"revision": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75",
 			"revisionTime": "2014-10-17T20:07:13Z"
 		},
 		{
-			"checksumSHA1": "Pm+TNUFA1kz3CQDN4tahU8+BjM0=",
+			"checksumSHA1": "9vQ5+o0oO/0deG+uokvvdpeSv0Y=",
 			"path": "github.com/ovh/go-ovh/ovh",
-			"revision": "99a1e00db4397517d87ab82c92b9d8cb60e5940b",
-			"revisionTime": "2016-11-22T13:45:53Z"
+			"revision": "d2207178e10e4527e8f222fd8707982df8c3af17",
+			"revisionTime": "2017-01-02T12:05:21Z"
 		},
 		{
 			"checksumSHA1": "BqUqNg3UuaPTse8Vg+xR/zW6tKw=",

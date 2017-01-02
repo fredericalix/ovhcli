@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"net/url"
 )
 
 // TelephonyEasyHunting struct
@@ -78,7 +79,7 @@ type TelephonyOvhPabxHuntingAgent struct {
 // GET /telephony/{billingAccount}/easyHunting
 func (c *Client) TelephonyEasyHuntingList(billingAccount string, withDetails bool) ([]TelephonyEasyHunting, error) {
 	var names []string
-	if err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting", billingAccount), &names); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting", url.QueryEscape(billingAccount)), &names); err != nil {
 		return nil, err
 	}
 
@@ -121,7 +122,7 @@ func (c *Client) TelephonyEasyHuntingList(billingAccount string, withDetails boo
 // GET /telephony/{billingAccount}/easyHunting/{serviceName}
 func (c *Client) TelephonyEasyHuntingInfo(billingAccount, serviceName string) (*TelephonyEasyHunting, error) {
 	telephonyEasyHunting := &TelephonyEasyHunting{}
-	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s", billingAccount, serviceName), telephonyEasyHunting)
+	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s", url.QueryEscape(billingAccount), url.QueryEscape(serviceName)), telephonyEasyHunting)
 	return telephonyEasyHunting, err
 }
 
@@ -129,7 +130,7 @@ func (c *Client) TelephonyEasyHuntingInfo(billingAccount, serviceName string) (*
 // GET /telephony/{billingAccount}/easyHunting/{serviceName}/hunting
 func (c *Client) TelephonyOvhPabxHunting(billingAccount, serviceName string) (*TelephonyOvhPabxHunting, error) {
 	telephonyOvhPabxHunting := &TelephonyOvhPabxHunting{}
-	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting", billingAccount, serviceName), telephonyOvhPabxHunting)
+	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting", url.QueryEscape(billingAccount), url.QueryEscape(serviceName)), telephonyOvhPabxHunting)
 	return telephonyOvhPabxHunting, err
 }
 
@@ -137,7 +138,7 @@ func (c *Client) TelephonyOvhPabxHunting(billingAccount, serviceName string) (*T
 // GET  /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent
 func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName string, withDetails bool) ([]TelephonyOvhPabxHuntingAgent, error) {
 	var names []int64
-	if err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent", billingAccount, serviceName), &names); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent", url.QueryEscape(billingAccount), url.QueryEscape(serviceName)), &names); err != nil {
 		return nil, err
 	}
 
@@ -180,7 +181,7 @@ func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName st
 // GET /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent
 func (c *Client) TelephonyOvhPabxHuntingAgentInfo(billingAccount, serviceName string, agentID int64) (*TelephonyOvhPabxHuntingAgent, error) {
 	telephonyOvhPabxHuntingAgent := &TelephonyOvhPabxHuntingAgent{}
-	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", billingAccount, serviceName, agentID), telephonyOvhPabxHuntingAgent)
+	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", url.QueryEscape(billingAccount), url.QueryEscape(serviceName), agentID), telephonyOvhPabxHuntingAgent)
 	return telephonyOvhPabxHuntingAgent, err
 }
 
@@ -188,6 +189,6 @@ func (c *Client) TelephonyOvhPabxHuntingAgentInfo(billingAccount, serviceName st
 // PUT /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent/{agentId}
 func (c *Client) TelephonyOvhPabxHuntingAgentUpdate(billingAccount, serviceName string, agentID int64, telephonyOvhPabxHuntingAgent TelephonyOvhPabxHuntingAgent) (*TelephonyOvhPabxHuntingAgent, error) {
 	r := &TelephonyOvhPabxHuntingAgent{}
-	err := c.OVHClient.Put(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", billingAccount, serviceName, agentID), telephonyOvhPabxHuntingAgent, r)
+	err := c.OVHClient.Put(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", url.QueryEscape(billingAccount), url.QueryEscape(serviceName), agentID), telephonyOvhPabxHuntingAgent, r)
 	return r, err
 }

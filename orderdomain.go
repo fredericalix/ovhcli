@@ -3,6 +3,7 @@ package ovh
 import (
 	"errors"
 	"fmt"
+	"net/url"
 )
 
 // OrderPostDomainReq defines the fields for a Cart creation request
@@ -37,7 +38,7 @@ func (c *Client) OrderGetProductsDomain(cartID string, domain string) ([]OrderCa
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	products := []OrderCartProductInformation{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domain?domain=%s", cartID, domain), &products)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domain?domain=%s", url.QueryEscape(cartID), url.QueryEscape(domain)), &products)
 	return products, err
 }
 
@@ -47,7 +48,7 @@ func (c *Client) OrderAddProductDomain(cartID string, orderPostDomainReq OrderPo
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	domainItem := &OrderCartItem{}
-	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domain", cartID), orderPostDomainReq, domainItem)
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domain", url.QueryEscape(cartID)), orderPostDomainReq, domainItem)
 	return domainItem, err
 }
 
@@ -57,7 +58,7 @@ func (c *Client) OrderGetProductDomainOptions(cartID string, domain string) ([]O
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	options := []OrderCartGenericOptionDefinition{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domain/options?domain=%s", cartID, domain), options)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domain/options?domain=%s", url.QueryEscape(cartID), url.QueryEscape(domain)), options)
 
 	return options, err
 }
@@ -68,7 +69,7 @@ func (c *Client) OrderAddProductDomainOption(cartID string, orderPostDomainOptio
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	optionItem := &OrderCartItem{}
-	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domain/options", cartID), orderPostDomainOptionReq, optionItem)
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domain/options", url.QueryEscape(cartID)), orderPostDomainOptionReq, optionItem)
 	return optionItem, err
 }
 
@@ -78,7 +79,7 @@ func (c *Client) OrderGetProductDomainTransfer(cartID string, domain string) ([]
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	products := []OrderCartProductInformation{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainTransfer?domain=%s", cartID, domain), products)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainTransfer?domain=%s", url.QueryEscape(cartID), url.QueryEscape(domain)), products)
 	return products, err
 }
 
@@ -88,7 +89,7 @@ func (c *Client) OrderAddProductDomainTransfer(cartID string, orderPostDomainReq
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	domainTransferItem := &OrderCartItem{}
-	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domainTransfer", cartID), orderPostDomainReq, domainTransferItem)
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domainTransfer", url.QueryEscape(cartID)), orderPostDomainReq, domainTransferItem)
 	return domainTransferItem, err
 }
 
@@ -98,7 +99,7 @@ func (c *Client) OrderGetProductDomainTransferOptions(cartID string, domain stri
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	options := []OrderCartGenericOptionDefinition{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainTransfer/options?domain=%s", cartID, domain), options)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainTransfer/options?domain=%s", url.QueryEscape(cartID), url.QueryEscape(domain)), options)
 
 	return options, err
 }
@@ -109,7 +110,7 @@ func (c *Client) OrderAddProductDomainTransferOption(cartID string, orderPostDom
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	optionItem := &OrderCartItem{}
-	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domainTransfer/options", cartID), orderPostDomainReq, optionItem)
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domainTransfer/options", url.QueryEscape(cartID)), orderPostDomainReq, optionItem)
 	return optionItem, err
 }
 
@@ -119,7 +120,7 @@ func (c *Client) OrderGetProductDomainRestore(cartID string, domain string) ([]O
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	domainRestoreProducts := []OrderCartGenericProductDefinition{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainRestore?domain=%s", cartID, domain), domainRestoreProducts)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainRestore?domain=%s", url.QueryEscape(cartID), url.QueryEscape(domain)), domainRestoreProducts)
 	return domainRestoreProducts, err
 }
 
@@ -129,7 +130,7 @@ func (c *Client) OrderGetProductDomainPacks(cartID string, domain string) ([]Ord
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	domainPacksProducts := []OrderCartDomainPacksProductInformation{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainPacks?domain=%s", cartID, domain), domainPacksProducts)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/domainPacks?domain=%s", url.QueryEscape(cartID), url.QueryEscape(domain)), domainPacksProducts)
 	return domainPacksProducts, err
 }
 
@@ -139,6 +140,6 @@ func (c *Client) OrderPostProductDomainPacks(cartID string, orderPostDomainPacks
 		return nil, errors.New("Error 404: \"Invalid Cart ID\"")
 	}
 	domainPacksItem := &OrderCartItem{}
-	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domainTransfer", cartID), orderPostDomainPacksReq, domainPacksItem)
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/domainTransfer", url.QueryEscape(cartID)), orderPostDomainPacksReq, domainPacksItem)
 	return domainPacksItem, err
 }

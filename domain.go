@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"net/url"
 )
 
 // Domain ...
@@ -89,6 +90,6 @@ func (c *Client) DomainList(withDetails bool) ([]Domain, error) {
 // DomainInfo retrieve all infos of one of your domains
 func (c *Client) DomainInfo(domainName string) (*Domain, error) {
 	domain := &Domain{}
-	err := c.OVHClient.Get(fmt.Sprintf("/domain/%s", domainName), domain)
+	err := c.OVHClient.Get(fmt.Sprintf("/domain/%s", url.QueryEscape(domainName)), domain)
 	return domain, err
 }

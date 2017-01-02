@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"net/url"
 )
 
 // Telephony struct
@@ -71,6 +72,6 @@ func (c *Client) TelephonyListBillingAccount(withDetails bool) ([]Telephony, err
 // TelephonyBillingAccountInfo retrieve all infos of one of your services
 func (c *Client) TelephonyBillingAccountInfo(billingAccount string) (*Telephony, error) {
 	telephony := &Telephony{}
-	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s", billingAccount), telephony)
+	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s", url.QueryEscape(billingAccount)), telephony)
 	return telephony, err
 }

@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"net/url"
 )
 
 // DBaasQueueApp represents a Qaas application
@@ -121,14 +122,14 @@ func (c *Client) DBaasQueueAppList(withDetails bool) ([]DBaasQueueApp, error) {
 // DBaasQueueAppInfo retrieve all infos of one of your apps
 func (c *Client) DBaasQueueAppInfo(serviceName string) (*DBaasQueueApp, error) {
 	app := &DBaasQueueApp{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s", serviceName), app)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s", url.QueryEscape(serviceName)), app)
 	return app, err
 }
 
 // DBaasQueueAppServiceInfo retrieve all infos of one of your apps
 func (c *Client) DBaasQueueAppServiceInfo(serviceName string) (*DBaasQueueServiceInfo, error) {
 	app := &DBaasQueueServiceInfo{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/serviceInfos", serviceName), app)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/serviceInfos", url.QueryEscape(serviceName)), app)
 	return app, err
 }
 
@@ -150,7 +151,7 @@ func (c *Client) DBaasQueueAppInfoByName(name string) (*DBaasQueueApp, error) {
 // DBaasQueueKeyList list all key on a service
 func (c *Client) DBaasQueueKeyList(serviceName string, withDetails bool) ([]DBaasQueueKey, error) {
 	var ids []string
-	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/key", serviceName), &ids); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/key", url.QueryEscape(serviceName)), &ids); err != nil {
 		return nil, err
 	}
 
@@ -191,14 +192,14 @@ func (c *Client) DBaasQueueKeyList(serviceName string, withDetails bool) ([]DBaa
 // DBaasQueueKeyInfo retrieves all infos of one of your apps
 func (c *Client) DBaasQueueKeyInfo(serviceName, keyID string) (*DBaasQueueKey, error) {
 	key := &DBaasQueueKey{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/key/%s", serviceName, keyID), key)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/key/%s", url.QueryEscape(serviceName), url.QueryEscape(keyID)), key)
 	return key, err
 }
 
 // DBaasQueueRoleList list all roles on a service
 func (c *Client) DBaasQueueRoleList(serviceName string, withDetails bool) ([]DBaasQueueRole, error) {
 	var ids []string
-	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/role", serviceName), &ids); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/role", url.QueryEscape(serviceName)), &ids); err != nil {
 		return nil, err
 	}
 
@@ -239,14 +240,14 @@ func (c *Client) DBaasQueueRoleList(serviceName string, withDetails bool) ([]DBa
 // DBaasQueueRoleInfo  retrieves all infos of one role on a service
 func (c *Client) DBaasQueueRoleInfo(serviceName, roleID string) (*DBaasQueueRole, error) {
 	role := &DBaasQueueRole{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/role/%s", serviceName, roleID), role)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/role/%s", url.QueryEscape(serviceName), url.QueryEscape(roleID)), role)
 	return role, err
 }
 
 // DBaasQueueRegionList list all region on a service
 func (c *Client) DBaasQueueRegionList(serviceName string, withDetails bool) ([]DBaasQueueRegion, error) {
 	var ids []string
-	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/region", serviceName), &ids); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/region", url.QueryEscape(serviceName)), &ids); err != nil {
 		return nil, err
 	}
 
@@ -287,14 +288,14 @@ func (c *Client) DBaasQueueRegionList(serviceName string, withDetails bool) ([]D
 // DBaasQueueRegionInfo retrieves all infos of one region on a service
 func (c *Client) DBaasQueueRegionInfo(serviceName, regionID string) (*DBaasQueueRegion, error) {
 	region := &DBaasQueueRegion{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/region/%s", serviceName, regionID), region)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/region/%s", url.QueryEscape(serviceName), url.QueryEscape(regionID)), region)
 	return region, err
 }
 
 // DBaasQueueTopicList list all topics on a service
 func (c *Client) DBaasQueueTopicList(serviceName string, withDetails bool) ([]DBaasQueueTopic, error) {
 	var ids []string
-	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/topic", serviceName), &ids); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/topic", url.QueryEscape(serviceName)), &ids); err != nil {
 		return nil, err
 	}
 
@@ -335,14 +336,14 @@ func (c *Client) DBaasQueueTopicList(serviceName string, withDetails bool) ([]DB
 // DBaasQueueTopicInfo retrieves all infos of one topic on a service
 func (c *Client) DBaasQueueTopicInfo(serviceName, topicID string) (*DBaasQueueTopic, error) {
 	topic := &DBaasQueueTopic{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/topic/%s", serviceName, topicID), topic)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/topic/%s", url.QueryEscape(serviceName), url.QueryEscape(topicID)), topic)
 	return topic, err
 }
 
 // DBaasQueueUserList list all users on a service
 func (c *Client) DBaasQueueUserList(serviceName string, withDetails bool) ([]DBaasQueueUser, error) {
 	var ids []string
-	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/user", serviceName), &ids); err != nil {
+	if err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/user", url.QueryEscape(serviceName)), &ids); err != nil {
 		return nil, err
 	}
 
@@ -383,20 +384,20 @@ func (c *Client) DBaasQueueUserList(serviceName string, withDetails bool) ([]DBa
 // DBaasQueueUserInfo retrieve all infos of one user of your apps
 func (c *Client) DBaasQueueUserInfo(serviceName, userID string) (*DBaasQueueUser, error) {
 	user := &DBaasQueueUser{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/user/%s", serviceName, userID), user)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/user/%s", url.QueryEscape(serviceName), url.QueryEscape(userID)), user)
 	return user, err
 }
 
 // DBaasQueueUserChangePassword reset user password
 func (c *Client) DBaasQueueUserChangePassword(serviceName, userID string) (*DBaasQueueUser, error) {
 	user := &DBaasQueueUser{}
-	err := c.OVHClient.Post(fmt.Sprintf("/dbaas/queue/%s/user/%s/changePassword", serviceName, userID), nil, user)
+	err := c.OVHClient.Post(fmt.Sprintf("/dbaas/queue/%s/user/%s/changePassword", url.QueryEscape(serviceName), url.QueryEscape(userID)), nil, user)
 	return user, err
 }
 
 // DBaasQueueMetricsAccount retrieve all infos of one of your apps
 func (c *Client) DBaasQueueMetricsAccount(serviceName string) (*DBaasQueueMetricsAccount, error) {
 	user := &DBaasQueueMetricsAccount{}
-	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/metrics/account", serviceName), user)
+	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/metrics/account", url.QueryEscape(serviceName)), user)
 	return user, err
 }

@@ -277,7 +277,6 @@ func (c *Client) CallAPI(method, path string, reqBody, resType interface{}, need
 		if err != nil {
 			return err
 		}
-
 	}
 
 	target := fmt.Sprintf("%s%s", c.endpoint, path)

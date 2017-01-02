@@ -6,6 +6,7 @@ import (
 
 func init() {
 
+	Cmd.AddCommand(cmdEasyHuntingAgentUpdate)
 	Cmd.AddCommand(cmdEasyHuntingAgentList)
 	Cmd.AddCommand(cmdEasyHuntingAgentInfo)
 }

@@ -9,12 +9,6 @@
 			"revisionTime": "2016-11-23T02:24:14Z"
 		},
 		{
-			"checksumSHA1": "70+TVBeBd1kBT0jD7HdxyGmMxo8=",
-			"path": "github.com/go-ini/ini",
-			"revision": "2ba15ac2dc9cdf88c110ec2dc0ced7fa45f5678c",
-			"revisionTime": "2016-11-20T03:10:36Z"
-		},
-		{
 			"checksumSHA1": "40vJyUB4ezQSn/NSadsKEOrudMc=",
 			"path": "github.com/inconshreveable/mousetrap",
 			"revision": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75",
@@ -33,10 +27,10 @@
 			"revisionTime": "2016-10-10T15:14:18Z"
 		},
 		{
-			"checksumSHA1": "1wuE9EGcNZMuQ1fWRZ4Z/TPXjzQ=",
+			"checksumSHA1": "AxfxmmBpbjQoaQKXbERcEw9pv+U=",
 			"path": "github.com/spf13/pflag",
-			"revision": "bf8481a6aebc13a8aab52e699ffe2e79771f5a3f",
-			"revisionTime": "2016-10-11T12:08:26Z"
+			"revision": "25f8b5b07aece3207895bf19f7ab517eb3b22a40",
+			"revisionTime": "2016-12-14T04:49:49Z"
 		},
 		{
 			"checksumSHA1": "YRD335tkMvgHzkfbfveMUpsE3Bw=",

@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 
@@ -157,7 +158,7 @@ func (c *Client) CloudProjectsList() ([]Project, error) {
 // CloudProjectInfoByID return the details of a project given a project id
 func (c *Client) CloudProjectInfoByID(projectID string) (*Project, error) {
 	project := &Project{}
-	path := fmt.Sprintf("/cloud/project/%s", projectID)
+	path := fmt.Sprintf("/cloud/project/%s", url.QueryEscape(projectID))
 	e := c.OVHClient.Get(path, &project)
 
 	return project, e
@@ -196,7 +197,7 @@ func (c *Client) CloudProjectInfoByName(projectName string) (project *Project, e
 
 // CloudListRegions return a list of network regions
 func (c *Client) CloudListRegions(projectID string) ([]Region, error) {
-	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/region", url.QueryEscape(projectID))
 	var resultsreq []string
 	e := c.OVHClient.Get(path, &resultsreq)
 	regions := []Region{}
@@ -209,14 +210,14 @@ func (c *Client) CloudListRegions(projectID string) ([]Region, error) {
 // CloudInfoRegion return services status on a region
 func (c *Client) CloudInfoRegion(projectID, regionName string) (*Region, error) {
 	region := &Region{}
-	path := fmt.Sprintf("/cloud/project/%s/region/%s", projectID, regionName)
+	path := fmt.Sprintf("/cloud/project/%s/region/%s", url.QueryEscape(projectID), url.QueryEscape(regionName))
 	err := c.OVHClient.Get(path, region)
 	return region, err
 }
 
 // CloudGetInstance finds a VM instance given a name or an ID
 func (c *Client) CloudGetInstance(projectID, instanceID string) (instance *Instance, err error) {
-	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", url.QueryEscape(projectID), url.QueryEscape(instanceID))
 	err = c.OVHClient.Get(path, &instance)
 	return instance, nil
 }
@@ -238,14 +239,14 @@ func (c *Client) CloudCreateInstance(projectID, name, pubkeyID, flavorID, imageI
 		ImageID:  imageID,
 		Region:   region,
 	}
-	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/instance", url.QueryEscape(projectID))
 	err = c.OVHClient.Post(path, instanceReq, &instance)
 	return instance, err
 }
 
 // CloudDeleteInstance stops and destroys a public cloud instance
 func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
-	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", url.QueryEscape(projectID), url.QueryEscape(instanceID))
 	err = c.OVHClient.Delete(path, nil)
 	if apierror, ok := err.(*ovh.APIError); ok && apierror.Code == 404 {
 		err = nil
@@ -255,7 +256,7 @@ func (c *Client) CloudDeleteInstance(projectID, instanceID string) (err error) {
 
 // CloudListInstance show cloud instance(s)
 func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
-	path := fmt.Sprintf("/cloud/project/%s/instance", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/instance", url.QueryEscape(projectID))
 	instances := []Instance{}
 	e := c.OVHClient.Get(path, &instances)
 
@@ -264,7 +265,7 @@ func (c *Client) CloudListInstance(projectID string) ([]Instance, error) {
 
 // CloudInfoInstance give info about cloud instance
 func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, error) {
-	path := fmt.Sprintf("/cloud/project/%s/instance/%s", projectID, instanceID)
+	path := fmt.Sprintf("/cloud/project/%s/instance/%s", url.QueryEscape(projectID), url.QueryEscape(instanceID))
 	instances := &Instance{}
 
 	e := c.OVHClient.Get(path, &instances)
@@ -274,7 +275,7 @@ func (c *Client) CloudInfoInstance(projectID, instanceID string) (*Instance, err
 
 // CloudInfoNetworkPublic return the list of a public network by given a project id
 func (c *Client) CloudInfoNetworkPublic(projectID string) ([]Network, error) {
-	path := fmt.Sprintf("/cloud/project/%s/network/public", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/network/public", url.QueryEscape(projectID))
 	network := []Network{}
 
 	e := c.OVHClient.Get(path, &network)
@@ -284,7 +285,7 @@ func (c *Client) CloudInfoNetworkPublic(projectID string) ([]Network, error) {
 
 // CloudInfoNetworkPrivate return the list of a private network by given a project id
 func (c *Client) CloudInfoNetworkPrivate(projectID string) ([]Network, error) {
-	path := fmt.Sprintf("/cloud/project/%s/network/private", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/network/private", url.QueryEscape(projectID))
 	network := []Network{}
 
 	e := c.OVHClient.Get(path, &network)
@@ -302,7 +303,7 @@ func (c *Client) CloudCreateNetworkPrivate(projectID, name, regions string, vlan
 	network.Name = name
 	network.VlanID = vlanid
 	//network.[]Regions = regions
-	path := fmt.Sprintf("/cloud/project/%s/network/private", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/network/private", url.QueryEscape(projectID))
 	err = c.OVHClient.Post(path, network, &net)
 
 	return net, err
@@ -317,7 +318,7 @@ func (c *Client) CloudProjectUsersList(projectID string) ([]User, error) {
 
 // CloudProjectUserCreate return the list of users by given a project id
 func (c *Client) CloudProjectUserCreate(projectID, description string) (User, error) {
-	path := fmt.Sprintf("/cloud/project/%s/user", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/user", url.QueryEscape(projectID))
 	data := map[string]string{
 		"description": description,
 	}
@@ -327,28 +328,28 @@ func (c *Client) CloudProjectUserCreate(projectID, description string) (User, er
 
 // CloudProjectRegionList return the region by given a project id
 func (c *Client) CloudProjectRegionList(projectID string) ([]string, error) {
-	path := fmt.Sprintf("/cloud/project/%s/region", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/region", url.QueryEscape(projectID))
 	var r []string
 	return r, c.OVHClient.Get(path, &r)
 }
 
 // CloudProjectSSHKeyList return the list of ssh keys by given a project id
 func (c *Client) CloudProjectSSHKeyList(projectID string) ([]Sshkey, error) {
-	path := fmt.Sprintf("/cloud/project/%s/sshkey", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/sshkey", url.QueryEscape(projectID))
 	sshkeys := []Sshkey{}
 	return sshkeys, c.OVHClient.Get(path, &sshkeys)
 }
 
 // CloudProjectSSHKeyInfo return info about a ssh keys
 func (c *Client) CloudProjectSSHKeyInfo(projectID, sshkeyID string) (*Sshkey, error) {
-	path := fmt.Sprintf("/cloud/project/%s/sshkey/%s", projectID, sshkeyID)
+	path := fmt.Sprintf("/cloud/project/%s/sshkey/%s", url.QueryEscape(projectID), url.QueryEscape(sshkeyID))
 	sshkeys := &Sshkey{}
 	return sshkeys, c.OVHClient.Get(path, &sshkeys)
 }
 
 // CloudProjectSSHKeyDelete delete a ssh key
 func (c *Client) CloudProjectSSHKeyDelete(projectID, sshkeyID string) (err error) {
-	path := fmt.Sprintf("/cloud/project/%s/sshkey/%s", projectID, sshkeyID)
+	path := fmt.Sprintf("/cloud/project/%s/sshkey/%s", url.QueryEscape(projectID), url.QueryEscape(sshkeyID))
 	err = c.OVHClient.Delete(path, nil)
 	if apierror, ok := err.(*ovh.APIError); ok && apierror.Code == 404 {
 		err = nil
@@ -358,7 +359,7 @@ func (c *Client) CloudProjectSSHKeyDelete(projectID, sshkeyID string) (err error
 
 // CloudProjectSSHKeyCreate return the list of users by given a project id
 func (c *Client) CloudProjectSSHKeyCreate(projectID, publicKey, name string) (Sshkey, error) {
-	path := fmt.Sprintf("/cloud/project/%s/sshkey", projectID)
+	path := fmt.Sprintf("/cloud/project/%s/sshkey", url.QueryEscape(projectID))
 	data := map[string]string{
 		"publicKey": publicKey,
 		"name":      name,
@@ -371,10 +372,10 @@ func (c *Client) CloudProjectSSHKeyCreate(projectID, publicKey, name string) (Ss
 func (c *Client) CloudProjectImagesList(projectID, region string) ([]Image, error) {
 	var path string
 	if region == "" {
-		path = fmt.Sprintf("/cloud/project/%s/image", projectID)
+		path = fmt.Sprintf("/cloud/project/%s/image", url.QueryEscape(projectID))
 
 	} else {
-		path = fmt.Sprintf("/cloud/project/%s/image?region=%s", projectID, region)
+		path = fmt.Sprintf("/cloud/project/%s/image?region=%s", url.QueryEscape(projectID), url.QueryEscape(region))
 	}
 	images := []Image{}
 	return images, c.OVHClient.Get(path, &images)
@@ -417,10 +418,10 @@ func (c *Client) CloudProjectImagesSearch(projectID string, region string, terms
 func (c *Client) CloudProjectSnapshotsList(projectID, region string) ([]Image, error) {
 	var path string
 	if region == "" {
-		path = fmt.Sprintf("/cloud/project/%s/snapshot", projectID)
+		path = fmt.Sprintf("/cloud/project/%s/snapshot", url.QueryEscape(projectID))
 
 	} else {
-		path = fmt.Sprintf("/cloud/project/%s/snapshot?region=%s", projectID, region)
+		path = fmt.Sprintf("/cloud/project/%s/snapshot?region=%s", url.QueryEscape(projectID), url.QueryEscape(region))
 	}
 	images := []Image{}
 	return images, c.OVHClient.Get(path, &images)
@@ -430,10 +431,10 @@ func (c *Client) CloudProjectSnapshotsList(projectID, region string) ([]Image, e
 func (c *Client) CloudProjectFlavorsList(projectID, region string) ([]Flavor, error) {
 	var path string
 	if region == "" {
-		path = fmt.Sprintf("/cloud/project/%s/flavor", projectID)
+		path = fmt.Sprintf("/cloud/project/%s/flavor", url.QueryEscape(projectID))
 
 	} else {
-		path = fmt.Sprintf("/cloud/project/%s/flavor?region=%s", projectID, region)
+		path = fmt.Sprintf("/cloud/project/%s/flavor?region=%s", url.QueryEscape(projectID), url.QueryEscape(region))
 	}
 	f := []Flavor{}
 	return f, c.OVHClient.Get(path, &f)

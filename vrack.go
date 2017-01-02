@@ -1,6 +1,9 @@
 package ovh
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
 // Vrack ...
 type Vrack struct {
@@ -27,6 +30,6 @@ func (c *Client) VrackList() ([]Vrack, error) {
 // VrackInfo ...
 func (c *Client) VrackInfo(vrackName string) (*Vrack, error) {
 	vrack := &Vrack{}
-	err := c.OVHClient.Get(fmt.Sprintf("/vrack/%s", vrackName), vrack)
+	err := c.OVHClient.Get(fmt.Sprintf("/vrack/%s", url.QueryEscape(vrackName)), vrack)
 	return vrack, err
 }

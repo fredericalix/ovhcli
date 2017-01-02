@@ -2,6 +2,7 @@ package ovh
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -32,7 +33,7 @@ func (c *Client) OrderCartList() ([]OrderCart, error) {
 // OrderCartInfo retrieve all infos of one of your cart
 func (c *Client) OrderCartInfo(cartID string) (*OrderCart, error) {
 	cart := &OrderCart{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s", cartID), cart)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s", url.QueryEscape(cartID)), cart)
 	return cart, err
 }
 
@@ -46,33 +47,33 @@ func (c *Client) OrderCreateCart(cartCreateReq OrderCartCreateReq) (*OrderCart, 
 // OrderUpdateCart update a cart
 func (c *Client) OrderUpdateCart(cartID string, cartUpdateReq OrderCartUpdateReq) (*OrderCart, error) {
 	cart := &OrderCart{}
-	e := c.OVHClient.Put(fmt.Sprintf("/order/cart/%s", cartID), cartUpdateReq, cart)
+	e := c.OVHClient.Put(fmt.Sprintf("/order/cart/%s", url.QueryEscape(cartID)), cartUpdateReq, cart)
 	return cart, e
 }
 
 // OrderDeleteCart delete a cart
 func (c *Client) OrderDeleteCart(cartID string) error {
-	e := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s", cartID), nil)
+	e := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s", url.QueryEscape(cartID)), nil)
 	return e
 }
 
 // OrderAssignCart assign to connected user a cart
 func (c *Client) OrderAssignCart(cartID string) error {
-	e := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/assign", cartID), nil, nil)
+	e := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/assign", url.QueryEscape(cartID)), nil, nil)
 	return e
 }
 
 // OrderSummaryCart get a summary of your current order
 func (c *Client) OrderSummaryCart(cartID string) (*Order, error) {
 	order := &Order{}
-	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/summary", cartID), order)
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/summary", url.QueryEscape(cartID)), order)
 	return order, e
 }
 
 // OrderGetCheckoutCart get prices and contracts information for your cart
 func (c *Client) OrderGetCheckoutCart(cartID string) (*Order, error) {
 	order := &Order{}
-	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/checkout", cartID), order)
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/checkout", url.QueryEscape(cartID)), order)
 	return order, e
 }
 
@@ -86,14 +87,14 @@ func (c *Client) OrderPostCheckoutCart(cartID string, waiveRetractationPeriod bo
 		waiveRetractationPeriod,
 	}
 
-	e := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/checkout", cartID), data, order)
+	e := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/checkout", url.QueryEscape(cartID)), data, order)
 	return order, e
 }
 
 // OrderCartItemList list all items in your cart
 func (c *Client) OrderCartItemList(cartID string) ([]OrderCartItem, error) {
 	var ids []int
-	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item", cartID), &ids)
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item", url.QueryEscape(cartID)), &ids)
 	items := []OrderCartItem{}
 	for _, id := range ids {
 		items = append(items, OrderCartItem{ItemID: id})
@@ -104,7 +105,7 @@ func (c *Client) OrderCartItemList(cartID string) ([]OrderCartItem, error) {
 // OrderCartItemInfo retrieve info of a cart item
 func (c *Client) OrderCartItemInfo(cartID string, itemID int) (*OrderCartItem, error) {
 	item := &OrderCartItem{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d", cartID, itemID), item)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d", url.QueryEscape(cartID), itemID), item)
 	return item, err
 }
 
@@ -120,20 +121,20 @@ func (c *Client) OrderUpdateCartItem(cartID string, itemID int, duration string,
 		quantity,
 	}
 
-	err := c.OVHClient.Put(fmt.Sprintf("/order/cart/%s/item/%d", cartID, itemID), data, item)
+	err := c.OVHClient.Put(fmt.Sprintf("/order/cart/%s/item/%d", url.QueryEscape(cartID), itemID), data, item)
 	return item, err
 }
 
 // OrderDeleteCartItem delete a cart item
 func (c *Client) OrderDeleteCartItem(cartID string, itemID int) (*OrderCartItem, error) {
-	err := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s/item/%d", cartID, itemID), nil)
+	err := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s/item/%d", url.QueryEscape(cartID), itemID), nil)
 	return nil, err
 }
 
 // OrderCartConfigurationsList list all configurations for an item
 func (c *Client) OrderCartConfigurationsList(cartID string, itemID int) ([]OrderCartConfigurationItem, error) {
 	var ids []int
-	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/configuration", cartID, itemID), &ids)
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/configuration", url.QueryEscape(cartID), itemID), &ids)
 	configs := []OrderCartConfigurationItem{}
 	for _, id := range ids {
 		configs = append(configs, OrderCartConfigurationItem{ID: id})
@@ -144,7 +145,7 @@ func (c *Client) OrderCartConfigurationsList(cartID string, itemID int) ([]Order
 // OrderCartConfigurationInfo get a configuration for an item
 func (c *Client) OrderCartConfigurationInfo(cartID string, itemID int, configID int) (*OrderCartConfigurationItem, error) {
 	config := &OrderCartConfigurationItem{}
-	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/configuration/%d", cartID, itemID, configID), config)
+	err := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/configuration/%d", url.QueryEscape(cartID), itemID, configID), config)
 	return config, err
 }
 
@@ -159,19 +160,19 @@ func (c *Client) OrderCartAddConfiguration(cartID string, itemID int, label stri
 		label,
 		value,
 	}
-	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/item/%d/configuration", cartID, itemID), data, item)
+	err := c.OVHClient.Post(fmt.Sprintf("/order/cart/%s/item/%d/configuration", url.QueryEscape(cartID), itemID), data, item)
 	return item, err
 }
 
 // OrderCartDeleteConfiguration remove a configuration from an item
 func (c *Client) OrderCartDeleteConfiguration(cartID string, itemID int, configID int) (*OrderCartItem, error) {
-	err := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s/item/%d/configuration/%d", cartID, itemID, configID), nil)
+	err := c.OVHClient.Delete(fmt.Sprintf("/order/cart/%s/item/%d/configuration/%d", url.QueryEscape(cartID), itemID, configID), nil)
 	return nil, err
 }
 
 // OrderCartRequiredConfigurations get required configurations for an item
 func (c *Client) OrderCartRequiredConfigurations(cartID string, itemID int) ([]OrderCartConfigurationRequirements, error) {
 	var configs []OrderCartConfigurationRequirements
-	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/requiredConfiguration", cartID, itemID), &configs)
+	e := c.OVHClient.Get(fmt.Sprintf("/order/cart/%s/item/%d/requiredConfiguration", url.QueryEscape(cartID), itemID), &configs)
 	return configs, e
 }

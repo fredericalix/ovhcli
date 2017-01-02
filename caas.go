@@ -1,6 +1,9 @@
 package ovh
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
 // ContainersService is a representation of a Containers Service
 type ContainersService struct {
@@ -38,7 +41,7 @@ func (c *Client) ContainersServicesList() ([]ContainersService, error) {
 // ContainersServiceInfo ...
 func (c *Client) ContainersServiceInfo(containerservid string) (*ContainersService, error) {
 	containersservice := &ContainersService{}
-	path := fmt.Sprintf("/caas/containers/%s", containerservid)
+	path := fmt.Sprintf("/caas/containers/%s", url.QueryEscape(containerservid))
 	e := c.OVHClient.Get(path, &containersservice)
 
 	return containersservice, e

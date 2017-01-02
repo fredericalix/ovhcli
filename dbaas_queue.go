@@ -188,7 +188,7 @@ func (c *Client) DBaasQueueKeyList(serviceName string, withDetails bool) ([]DBaa
 	return keysComplete, nil
 }
 
-// DBaasQueueAppInfo retrieve all infos of one of your apps
+// DBaasQueueKeyInfo retrieves all infos of one of your apps
 func (c *Client) DBaasQueueKeyInfo(serviceName, keyID string) (*DBaasQueueKey, error) {
 	key := &DBaasQueueKey{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/key/%s", serviceName, keyID), key)
@@ -236,7 +236,7 @@ func (c *Client) DBaasQueueRoleList(serviceName string, withDetails bool) ([]DBa
 	return rolesComplete, nil
 }
 
-// DBaasQueueAppInfo retrieve all infos of one of your apps
+// DBaasQueueRoleInfo  retrieves all infos of one role on a service
 func (c *Client) DBaasQueueRoleInfo(serviceName, roleID string) (*DBaasQueueRole, error) {
 	role := &DBaasQueueRole{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/role/%s", serviceName, roleID), role)
@@ -284,7 +284,7 @@ func (c *Client) DBaasQueueRegionList(serviceName string, withDetails bool) ([]D
 	return regionsComplete, nil
 }
 
-// DBaasQueueAppInfo retrieve all infos of one of your apps
+// DBaasQueueRegionInfo retrieves all infos of one region on a service
 func (c *Client) DBaasQueueRegionInfo(serviceName, regionID string) (*DBaasQueueRegion, error) {
 	region := &DBaasQueueRegion{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/region/%s", serviceName, regionID), region)
@@ -332,7 +332,7 @@ func (c *Client) DBaasQueueTopicList(serviceName string, withDetails bool) ([]DB
 	return topicsComplete, nil
 }
 
-// DBaasQueueAppInfo retrieve all infos of one of your apps
+// DBaasQueueTopicInfo retrieves all infos of one topic on a service
 func (c *Client) DBaasQueueTopicInfo(serviceName, topicID string) (*DBaasQueueTopic, error) {
 	topic := &DBaasQueueTopic{}
 	err := c.OVHClient.Get(fmt.Sprintf("/dbaas/queue/%s/topic/%s", serviceName, topicID), topic)

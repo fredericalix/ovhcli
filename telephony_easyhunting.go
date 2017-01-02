@@ -48,8 +48,8 @@ type TelephonyEasyHunting struct {
 
 // TelephonyOvhPabxHunting struct
 type TelephonyOvhPabxHunting struct {
-	// The templated url of your CRM, opened by the banner application of your cloudpabx
-	CrmUrlTemplate string `json:"crmUrlTemplate,omitempty"`
+	// CrmUrlTemplate: The templated url of your CRM, opened by the banner application of your cloudpabx
+	CRMUrlTemplate string `json:"crmUrlTemplate,omitempty"`
 	// The name of your callcenter offer
 	Name string `json:"name,omitempty"`
 	// Enable G729 codec on your callcenter
@@ -61,17 +61,17 @@ type TelephonyOvhPabxHuntingAgent struct {
 	// ID of agent
 	AgentID int64 `json:"agentId,omitempty"`
 	// The wrap up time (in seconds) after the calls
-	WrapUpTime float64 `json:"wrapUpTime,omitempty"`
+	WrapUpTime int64 `json:"wrapUpTime,omitempty"`
 	// The number of the agent
 	Number string `json:"number,omitempty"`
 	// The waiting timeout (in seconds) before hangup an assigned called
-	Timeout float64 `json:"timeout,omitempty"`
+	Timeout int64 `json:"timeout,omitempty"`
 	// The current status of the agent
 	Status string `json:"status,omitempty"`
 	// The maximum of simultaneous calls that the agent will receive from the hunting
-	SimultaneousLines float64 `json:"simultaneousLines,omitempty"`
+	SimultaneousLines int64 `json:"simultaneousLines,omitempty"`
 	// The id of the current break status of the agent
-	BreakStatus float64 `json:"breakStatus,omitempty"`
+	BreakStatus int64 `json:"breakStatus,omitempty"`
 }
 
 // TelephonyEasyHuntingList list all OVH easy calls queues associated with this billing account
@@ -125,7 +125,7 @@ func (c *Client) TelephonyEasyHuntingInfo(billingAccount, serviceName string) (*
 	return telephonyEasyHunting, err
 }
 
-// TelephonyOvhPabxHuntingList list all OVH Pabx Hunting
+// TelephonyOvhPabxHunting retrieves info on OVH Pabx Hunting
 // GET /telephony/{billingAccount}/easyHunting/{serviceName}/hunting
 func (c *Client) TelephonyOvhPabxHunting(billingAccount, serviceName string) (*TelephonyOvhPabxHunting, error) {
 	telephonyOvhPabxHunting := &TelephonyOvhPabxHunting{}
@@ -176,10 +176,18 @@ func (c *Client) TelephonyOvhPabxHuntingAgentList(billingAccount, serviceName st
 	return agentsComplete, nil
 }
 
-// TelephonyOvhPabxHuntingAgent list all OVH Pabx Hunting Agent
+// TelephonyOvhPabxHuntingAgentInfo gets info from OVH Pabx Hunting Agent
 // GET /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent
 func (c *Client) TelephonyOvhPabxHuntingAgentInfo(billingAccount, serviceName string, agentID int64) (*TelephonyOvhPabxHuntingAgent, error) {
 	telephonyOvhPabxHuntingAgent := &TelephonyOvhPabxHuntingAgent{}
 	err := c.OVHClient.Get(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", billingAccount, serviceName, agentID), telephonyOvhPabxHuntingAgent)
 	return telephonyOvhPabxHuntingAgent, err
+}
+
+// TelephonyOvhPabxHuntingAgentUpdate update OVH Pabx Hunting Agent
+// PUT /telephony/{billingAccount}/easyHunting/{serviceName}/hunting/agent/{agentId}
+func (c *Client) TelephonyOvhPabxHuntingAgentUpdate(billingAccount, serviceName string, agentID int64, telephonyOvhPabxHuntingAgent TelephonyOvhPabxHuntingAgent) (*TelephonyOvhPabxHuntingAgent, error) {
+	r := &TelephonyOvhPabxHuntingAgent{}
+	err := c.OVHClient.Put(fmt.Sprintf("/telephony/%s/easyHunting/%s/hunting/agent/%d", billingAccount, serviceName, agentID), telephonyOvhPabxHuntingAgent, r)
+	return r, err
 }
